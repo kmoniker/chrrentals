@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<!--
+	Minimaxing by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+	{% load static %}
+<html>
+	<head>
+		<title>Minimaxing by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+		<link rel="stylesheet" href="{% static 'minimaxing/assets/css/main.css' %}" />
+	</head>
+	<body>
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+
+								<header id="header">
+									<h1><a href="{% url 'index' %}" id="logo">Christensen Rentals</a></h1>
+									<nav id="nav">
+										<a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == "index" %}current-page-item{% endif %}">Home</a>
+										<a href="{% url 'leaseview' %}" class="{% if request.resolver_match.url_name == "leaseview" %}current-page-item{% endif %}">Leases</a>
+										<a href="{% url '3col' %}" class="{% if request.resolver_match.url_name == "3col" %}current-page-item{% endif %}">Tenants</a>
+										<a href="{% url '2col2' %}" class="{% if request.resolver_match.url_name == "2col2" %}current-page-item{% endif %}">Investors</a>
+										<a href="{% url 'transactions' %}" class="{% if request.resolver_match.url_name == "transactions" %}current-page-item{% endif %}">Transactions</a>
+										<a href ="https://drive.google.com/drive/folders/0By7LWw8MKHXMfkJMZ2lsSndkZFpESTdvTW1JeUZrR2o5UmxGaUdqQXJDVzJVUGhLa0EzS3c?usp=sharing">Documents</a>
+										<a href="{% url 'admin:index' %}">Admin</a>
+										<!-- <a href="{% url '2col1' %}" class="{% if request.resolver_match.url_name == "2col1" %}current-page-item{% endif %}">Two Column #1</a>
+										<a href="{% url '2col2' %}" class="{% if request.resolver_match.url_name == "2col2" %}current-page-item{% endif %}">Two Column #2</a>
+										<a href="{% url '1col' %}" class="{% if request.resolver_match.url_name == "1col" %}current-page-item{% endif %}">One Column</a>
+										<a href="{% url '3col' %}" class="{% if request.resolver_match.url_name == "3col" %}current-page-item{% endif %}">Three Column</a> -->
+									</nav>
+								</header>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			{% block content %}
+
+			{% endblock %}
+			<!-- Footer -->
+				<div id="footer-wrapper">
+					<div class="container">
+						<div class="row">
+							<div class="col-8 col-12-medium">
+
+								<section>
+									<h2>How about a truckload of links?</h2>
+									<div>
+										<div class="row">
+											<div class="col-3 col-6-medium col-12-small">
+												<ul class="link-list">
+													<li><a href="{% url '2col1' %}">2 column #1</a></li>
+													<li><a href="{% url '2col2' %}">2 column #2</a></li>
+													<li><a href="{% url '1col' %}">1 column</a></li>
+													<li><a href="{% url '3col' %}">3 column</a></li>
+													<li><a href="#">Eget et amet consequat</a></li>
+												</ul>
+											</div>
+											<div class="col-3 col-6-medium col-12-small">
+												<ul class="link-list">
+													<li><a href="#">Quis accumsan lorem</a></li>
+													<li><a href="#">Sed neque nisi consequat</a></li>
+													<li><a href="#">Eget et amet consequat</a></li>
+													<li><a href="#">Dapibus sed mattis blandit</a></li>
+													<li><a href="#">Vitae magna sed dolore</a></li>
+												</ul>
+											</div>
+											<div class="col-3 col-6-medium col-12-small">
+												<ul class="link-list">
+													<li><a href="#">Sed neque nisi consequat</a></li>
+													<li><a href="#">Dapibus sed mattis blandit</a></li>
+													<li><a href="#">Quis accumsan lorem</a></li>
+													<li><a href="#">Suspendisse varius ipsum</a></li>
+													<li><a href="#">Eget et amet consequat</a></li>
+												</ul>
+											</div>
+											<div class="col-3 col-6-medium col-12-small">
+												<ul class="link-list">
+													<li><a href="#">Quis accumsan lorem</a></li>
+													<li><a href="#">Sed neque nisi consequat</a></li>
+													<li><a href="#">Eget et amet consequat</a></li>
+													<li><a href="#">Dapibus sed mattis blandit</a></li>
+													<li><a href="#">Vitae magna sed dolore</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</section>
+
+							</div>
+							<div class="col-4 col-12-medium">
+
+								<section>
+									<h2>Something of interest</h2>
+									<p>Duis neque nisi, dapibus sed mattis quis, rutrum accumsan sed.
+									Suspendisse eu varius nibh. Suspendisse vitae magna eget odio amet
+									mollis justo facilisis quis. Sed sagittis mauris amet tellus gravida
+									lorem ipsum dolor sit blandit.</p>
+									<footer class="controls">
+										<a href="#" class="button">Oh, please continue ....</a>
+									</footer>
+								</section>
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12">
+
+								<div id="copyright">
+									&copy; Untitled. All rights reserved. | Design: <a href="http://html5up.net">HTML5 UP</a>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="{% static 'minimaxing/assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'minimaxing/assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'minimaxing/assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'minimaxing/assets/js/util.js' %}"></script>
+			<script src="{% static 'minimaxing/assets/js/main.js' %}"></script>
+
+	</body>
+</html>

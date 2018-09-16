@@ -1,0 +1,96 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+			<!-- Main -->
+				<div id="main">
+					<div class="container">
+						<div class="row main-row">
+							<div class="col-3 col-12-medium">
+
+								<section>
+									<style>
+									a.bold {
+										font-weight: bold;
+									}
+									</style>
+									<h2>Filters</h2>
+									<ul class="link-list">
+										<li><a href="{% url 'hourview' %}">Clear Filters</a></li>
+										<li>Paymet Status</li>
+										<li><a class="{% if pd == 1 %}bold{% endif %}" href="{% url 'hourview' inv=inv pd=1 %}">Paid</a></li>
+										<li><a class="{% if pd == 2 %}bold{% endif %}" href="{% url 'hourview' inv=inv pd=2 %}">Unpaid</a></li>
+										<li>Investors</li>
+										{% for i in investors %}
+										<li><a class="{% if inv == i.pk %}bold{% endif %}" href="{% url 'hourview' inv=i.pk pd=pd %}">{{i.name}}</a></li>
+										{% endfor %}
+									</ul>
+								</section>
+
+							</div>
+							<div class="col-6 col-12-medium imp-medium">
+
+								<section class="middle-content">
+									<h2>Hours</h2>
+										<table>
+											<style>
+											table {
+												width:100%;
+											}
+											tr:nth-child(even) {
+												background-color: #f2f2f2;
+											}
+
+											td, th {
+												padding:10px;
+												text-align:left;
+											}
+											</style>
+											<tr>
+												<th style='width:120px;'>Date</th>
+												<th style='width:70px;'>Name</th>
+												<th style='width:40px;'>Hours</th>
+												<th>For</th>
+												<th style='width:30px;'>Paid</th>
+												<th style='width:30px;'></th>
+
+											</tr>
+											{% for h in hours %}
+											<tr>
+
+												<td>{{h.date}}</td>
+												<td>{{h.name}}</td>
+												<td>{{h.hours}}</td>
+												<td>{{h.work}}</td>
+												<td><a href="{% url 'toggle-paid' pk=h.pk inv=inv pd=pd %}">{{h.paid}}</a></td>
+												<td><a href="{{ h.get_edit_url }}">Edit</a></td>
+											</tr>
+											{% endfor %}
+										</table>
+
+								</section>
+
+							</div>
+							<div class="col-3 col-12-medium">
+
+								<section>
+									<h2>View Summary</h2>
+									<ul class="small-image-list">
+										<li>
+											<h5>total hours</h5>
+											<p>{{total_hours}}</p>
+										</li>
+									</ul>
+								</section>
+
+								<section>
+									<h2>Log hours</h2>
+									<ul class="link-list">
+										<li><a class="button" href="{% url 'create-hour' %}">New Entry</a></li>
+									</ul>
+								</section>
+
+							</div>
+						</div>
+					</div>
+				</div>
+{% endblock %}

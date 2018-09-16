@@ -1,0 +1,74 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+			<!-- Main -->
+				<div id="main">
+					<div class="container">
+						<div class="row main-row">
+							<div class="col-2 col-12-medium" id="fixedmenu">
+								<section>
+									<h2>Current Leases</h2>
+									<ul class="link-list">
+										{% for l in current %}
+										<li><a href="{% url 'leaseview' c='current' %}#{{l.pk}}">{{l}}</a></li>
+										{% endfor %}
+									</ul>
+								</section>
+								<section>
+									<h2>Past Leases</h2>
+									<ul class="link-list">
+										{% for l in past %}
+										<li><a href="{% url 'leaseview' c='past' %}#{{l.pk}}">{{l}}</a></li>
+										{% endfor %}
+									</ul>
+								</section>
+
+
+							</div>
+							<div class="col-10 col-12-medium imp-medium">
+								{% for l, value in lease_dict.items %}
+								<section id="{{l.pk}}">
+									<h3>{{l.property}}</h3>
+									<h4>{{l.lease_start}} - {{l.lease_end}}</h4>
+									<h5>Deposit: ${{l.required_deposit}} -- Monthly Payment: ${{l.monthly_payment}}</h5 >
+											<table>
+												<style>
+												table {
+													width:100%;
+												}
+												tr:nth-child(even) {
+													background-color: #f2f2f2;
+												}
+
+												td, th {
+													padding:10px;
+													text-align:left;
+												}
+												</style>
+												<tr>
+													<th style="width:130px">Tenant</th>
+													{% for m in l.get_months %}
+									                <th style="width:60px">{{ m }}</th>
+									                {% endfor %}
+
+												</tr>
+												{% for tenant, pmt in value.items %}
+												<tr>
+													<td><a href={{tenant.get_absolute_url}}>{{tenant}}</a></td>
+													{% for p in pmt %}
+													<td>{% if p.result == "False" %}<a href="{% url 'create-transaction' pk=p.pk leasepk=l.pk month=p.month year=p.year %}">Link</a>{% else %}{{p}}{% endif %}</td>
+													{% endfor %}
+
+												</tr>
+
+												{% endfor %}
+											</table>
+
+								</section>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+
+{% endblock %}
