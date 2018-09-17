@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '$%yi+(wp$kezjp5))u-4+a(=j$mzzd
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['christensen-rentals.herokuapp.com']
 
 # Application definition
 
