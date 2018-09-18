@@ -1,0 +1,33 @@
+pk, date, bank_deposit_date, amount, person, notes, investor, tenant
+1,5/1/2018,5/18/2018,"$3,480.27 ",UCCU,Bank Balance Forward,None,None
+2,5/1/2018,None,"$162,050.22 ",Mom and Dad,Investment Forward,Mom and Dad,None
+3,5/1/2018,None,"$14,742.36 ",Casey,Investment Forward,Casey,None
+4,5/25/2018,6/1/2018,$269.00 ,Rachel Stoddard,June 2018 Rent,None,Rachel Stoddard
+5,6/1/2018,6/8/2018,$269.00 ,Paige Skousen,June 2018 Rent,None,Paige Skousen
+6,6/1/2018,6/8/2018,$269.00 ,Mckenzie Christensen,June 2018 Rent,None,Mckenzie Christensen
+7,6/1/2018,6/4/2018,$269.00 ,Lindsey Johnson,June 2018 Rent,None,Lindsey Johnson
+8,6/5/2018,6/5/2018,($235.00),Aspen Ridge Management,hoa payment,None,None
+9,6/7/2018,6/7/2018,($21.46),Rental Property Insurance,rpi,None,None
+10,6/25/2018,6/29/2018,$269.00 ,Rachel Stoddard,July 2018 Rent,None,Rachel Stoddard
+11,6/26/2018,7/5/2018,($235.00),Aspen Ridge Management,HOA Payment,None,None
+12,6/29/2018,7/6/2018,$518.00 ,Mannon Christensen,Security Deposit,None,None
+13,6/30/2018,7/9/2018,$518.00 ,Natalie Wright,Security Deposit,None,None
+14,7/1/2018,7/9/2018,$269.00 ,Paige Skousen,July 2018 Rent,None,Paige Skousen
+15,7/1/2018,7/9/2018,$269.00 ,Mckenzie Christensen,July 2018 Rent,None,Mckenzie Christensen
+16,7/1/2018,7/2/2018,$269.00 ,Lindsey Johnson,July 2018 Rent,None,Lindsey Johnson
+17,7/2/2018,7/10/2018,$518.00 ,Sarah Lee,Security Deposit,None,None
+18,7/6/2018,7/6/2018,($21.46),Rental Property Insurance,,None,None
+19,7/7/2018,7/11/2018,($372.91),Lowes,Bought a new stove,None,None
+20,7/10/2018,None,($916.61),Mom and Dad,June 2018 Dividend,Mom and Dad,None
+21,7/10/2018,None,$83.39 ,Casey,Investment,Casey,None
+22,7/10/2018,None,($83.39),Casey,June 2018 Dividend,Casey,None
+23,7/25/2018,7/31/2018,$269.00 ,Rachel Stoddard,August 2018 Rent,None,Rachel Stoddard
+24,7/27/2018,8/6/2018,($235.00),Aspen Ridge Management,HOA Payment,None,None
+25,8/1/2018,8/7/2018,$269.00 ,Mckenzie Christensen,August 2018 Rent,None,Mckenzie Christensen
+26,8/1/2018,8/2/2018,$269.00 ,Lindsey Johnson,August 2018 Rent,None,Lindsey Johnson
+27,8/1/2018,8/7/2018,$269.00 ,Paige Skousen,August 2018 Rent,None,Paige Skousen
+28,8/1/2018,8/2/2018,$518.00 ,Frankie Christianson,Deposit,None,Frankie Christianson
+29,8/7/2018,8/7/2018,($21.46),Rental Property Insurance,RPI,None,None
+30,8/7/2018,None,($83.82),Casey,July 2018 Dividend,Casey,None
+31,8/7/2018,None,($916.18),None,July 2018 Dividend,Mom and Dad,None
+32,8/7/2018,None,$83.82 ,Casey,Investment,Casey,None

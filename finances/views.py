@@ -163,10 +163,16 @@ class TransactionListView(generic.ListView):
 def transactionview(request):
     transaction_list = Transaction.objects.extra(select={"order_date":"COALESCE(bank_posted_date, date)"}, order_by=["-order_date", "-date"])
 
+    into_bank = Transaction.objects.filter(out_flow=False).exclude(bank_posted_date=None).aggregate(Sum('amount'))
+    outof_bank = Transaction.objects.filter(out_flow=True).exclude(bank_posted_date=None).aggregate(Sum('amount'))
+
+    in_bank = into_bank['amount__sum']-outof_bank['amount__sum']
+    in_bank = "${:,.2f}".format(in_bank)
+    
     return render(
         request,
         'finances/transaction_list.html',
-        context = {'transaction_list':transaction_list}
+        context = {'transaction_list':transaction_list, "in_bank":in_bank}
     )
 
 def import_transaction_view(request):
@@ -177,7 +183,7 @@ def import_transaction_view(request):
                 if firstrow==True:
                     firstrow=False
                     continue
-                amt = row[2].replace("$", "")
+                amt = row[3].replace("$", "")
                 amt = amt.replace(",", "")
                 amt = amt.replace("(", "-")
                 amt = amt.replace(")", "")
@@ -188,35 +194,35 @@ def import_transaction_view(request):
                 else:
                     o_f = False
 
-                if row[1]=="None":
+                if row[2]=="None":
                     bpd=None
                 else:
-                    bpd=datetime.strptime(row[1],"%m/%d/%Y").strftime("%Y-%m-%d")
-                print(bpd)
+                    bpd=datetime.strptime(row[2],"%m/%d/%Y").strftime("%Y-%m-%d")
 
-                date = datetime.strptime(row[0],"%m/%d/%Y").strftime("%Y-%m-%d")
+                date = datetime.strptime(row[1],"%m/%d/%Y").strftime("%Y-%m-%d")
 
-                if row[6] != "None":
-                    tenant, result = Tenant.objects.get_or_create(name=row[6], defaults={'current':False})
+                if row[7] != "None":
+                    tenant, result = Tenant.objects.get_or_create(name=row[7], defaults={'current':False})
                     print(tenant, result)
                 else:
                     tenant = None
 
-                if row[5] != "None":
-                    investor, result = Investor.objects.get_or_create(name=row[5])
+                if row[6] != "None":
+                    investor, result = Investor.objects.get_or_create(name=row[6])
                     print(investor, result)
                 else:
                     investor = None
 
                 trans, created = Transaction.objects.update_or_create(
+                    pk = row[0],
                     date = date,
                     bank_posted_date = bpd,
                     amount = amt,
-                    person = row[3],
-                    notes = row[4],
+                    person = row[4],
+                    notes = row[5],
                     out_flow = o_f,
                     defaults = {
-                    'investment':investor,
+                    'investor':investor,
                     'tenant':tenant,}
                     )
 
