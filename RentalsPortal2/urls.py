@@ -24,8 +24,10 @@ urlpatterns = [
 urlpatterns += [
     path('finances/', include('finances.urls')),
 ]
-
-
+#Add Django site authentication urls (for login, logout, password management)
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+]
 #Add URL maps to redirect the base URL to our application
 from django.views.generic import RedirectView
 urlpatterns += [

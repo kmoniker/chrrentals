@@ -24,6 +24,7 @@
 
 								<header id="header">
 									<h1><a href="{% url 'index' %}" id="logo">Christensen Rentals</a></h1>
+									{% if user.is_authenticated %}
 									<nav id="nav">
 										<a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == "index" %}current-page-item{% endif %}">Home</a>
 										<a href="{% url 'leaseview' %}" class="{% if request.resolver_match.url_name == "leaseview" %}current-page-item{% endif %}">Leases</a>
@@ -32,11 +33,8 @@
 										<a href="{% url 'transactions' %}" class="{% if request.resolver_match.url_name == "transactions" %}current-page-item{% endif %}">Transactions</a>
 										<a href ="https://drive.google.com/drive/folders/0By7LWw8MKHXMfkJMZ2lsSndkZFpESTdvTW1JeUZrR2o5UmxGaUdqQXJDVzJVUGhLa0EzS3c?usp=sharing">Documents</a>
 										<a href="{% url 'admin:index' %}">Admin</a>
-										<!-- <a href="{% url '2col1' %}" class="{% if request.resolver_match.url_name == "2col1" %}current-page-item{% endif %}">Two Column #1</a>
-										<a href="{% url '2col2' %}" class="{% if request.resolver_match.url_name == "2col2" %}current-page-item{% endif %}">Two Column #2</a>
-										<a href="{% url '1col' %}" class="{% if request.resolver_match.url_name == "1col" %}current-page-item{% endif %}">One Column</a>
-										<a href="{% url '3col' %}" class="{% if request.resolver_match.url_name == "3col" %}current-page-item{% endif %}">Three Column</a> -->
 									</nav>
+									{% endif %}
 								</header>
 
 							</div>
@@ -51,7 +49,7 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-8 col-12-medium">
-
+								{% if user.is_authenticated %}
 								<section>
 									<h2>How about a truckload of links?</h2>
 									<div>
@@ -95,10 +93,10 @@
 										</div>
 									</div>
 								</section>
-
+								{% endif %}
 							</div>
 							<div class="col-4 col-12-medium">
-
+								{% if user.is_authenticated %}
 								<section>
 									<h2>Something of interest</h2>
 									<p>Duis neque nisi, dapibus sed mattis quis, rutrum accumsan sed.
@@ -109,7 +107,7 @@
 										<a href="#" class="button">Oh, please continue ....</a>
 									</footer>
 								</section>
-
+								{% endif %}
 							</div>
 						</div>
 						<div class="row">

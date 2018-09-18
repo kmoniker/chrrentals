@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '$%yi+(wp$kezjp5))u-4+a(=j$mzzd
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 
-ALLOWED_HOSTS = ['christensen-rentals.herokuapp.com']
+ALLOWED_HOSTS = ['christensen-rentals.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
@@ -49,14 +49,23 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'RentalsPortal2.loginrequired.LoginRequiredMiddleware',
+
+
 ]
+
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_EXEMPT_URLS = (
+)
 
 ROOT_URLCONF = 'RentalsPortal2.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

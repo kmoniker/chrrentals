@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from datetime import datetime, timedelta
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views import generic
 from django.db.models import Sum
 import calendar
 import csv
 from decimal import Decimal
+from datetime import datetime, timedelta
 
 from .models import *
 from .forms import *
 # Create your views here.
+
 def index(request):
     return render(
         request,
