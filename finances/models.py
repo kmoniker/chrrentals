@@ -32,6 +32,12 @@ class Transaction(models.Model):
         else:
             return self.bank_posted_date.strftime("%Y-%m-%d")
 
+    def get_edit_url(self):
+         return reverse('edit-transaction', args=[str(self.id)])
+
+    def get_absolute_url(self):
+        return reverse('transactions')
+
     def __str__(self):
         return "%s (%s)" % (self.amount, self.date)
 
@@ -86,13 +92,17 @@ class Asset(models.Model):
     property = models.BooleanField(default=True)
 
     def get_value(self):
-        now = date.datetime.now()
+        now = datetime.now().astimezone()
         lst = self.assetvalue_set.all()
         dates=[]
         for v in lst:
             dates.append(v.date)
-        youngest = max(dt for dt in dates if dt < now)
-        value = self.assetvalue_set.filter(date=youngest)
+        if len(dates) == 0:
+            value = "${:,.2f}".format(0)
+        else:
+            youngest = max(dt for dt in dates if dt < now)
+            assetvalue = self.assetvalue_set.filter(date=youngest)[0]
+            value = "${:,.2f}".format(assetvalue.value)
         return value
 
     def __str__(self):
@@ -104,7 +114,7 @@ class AssetValue(models.Model):
     date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "%s, %s" % (self.name, self.value)
+        return "$%s (%s)" % (self.value, self.date.strftime("%m/%d/%Y"))
 
 class Lease(models.Model):
     property = models.ForeignKey('Asset',  on_delete=models.SET_NULL, null=True)

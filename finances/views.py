@@ -98,7 +98,15 @@ def toggle_paid(request, pk, inv, pd):
 
 class TransactionCreate(CreateView):
     model = Transaction
-    fields = "__all__"
+    form_class = TransactionForm
+    initial={
+            'date': datetime.today(),
+            'bank_posted_date': None
+            }
+
+class TransactionUpdate(UpdateView):
+    model = Transaction
+    form_class = RentPaidForm
 
 def tenantpayment(request, pk, leasepk, year, month):
     tenant = Tenant.objects.get(pk = pk)
@@ -151,7 +159,7 @@ class TenantDetail(generic.DetailView):
     model=Tenant
     fields = "__all__"
 
-class TransactionListView(generic.ListView):
+class TransactionListView(generic.ListView): #For exporting Transactions
     model = Transaction
     context_object_name = "transaction_list"
     template_name = 'all_transactions.csv'
@@ -170,10 +178,23 @@ def transactionview(request):
     in_bank = "${:,.2f}".format(in_bank)
 
     last_bank_update = transaction_list.latest('bank_posted_date').bank_posted_date
+
+    bank = Asset.objects.get(name="UCCU Bank Account")
+    print(bank.get_value(), in_bank)
+    if bank.get_value() == in_bank:
+        in_bank_color = "green"
+    else:
+        in_bank_color = "red"
+
     return render(
         request,
         'finances/transaction_list.html',
-        context = {'transaction_list':transaction_list, "in_bank":in_bank, "last_bank_update":last_bank_update}
+        context = {
+                    'transaction_list':transaction_list,
+                    "in_bank":in_bank,
+                    "last_bank_update":last_bank_update,
+                    "in_bank_color":in_bank_color,
+                    }
     )
 
 def import_transaction_view(request):

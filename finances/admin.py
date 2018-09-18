@@ -20,10 +20,14 @@ class TransactionAdmin(admin.ModelAdmin):
 
 class LeaseInline(admin.TabularInline):
     model = Lease
+class AssetValueInline(admin.TabularInline):
+    model = AssetValue
 
 @admin.register(Asset)
 class AssetAdmin(admin.ModelAdmin):
-    inlines = [LeaseInline,]
+    inlines = [LeaseInline, AssetValueInline,]
+    list_display = ('name','get_value',)
+
 
 class TenantInline(admin.TabularInline):
     model=Lease.tenant_set.through

@@ -56,7 +56,7 @@
 												<tr>
 													<td><a href={{tenant.get_absolute_url}}>{{tenant}}</a></td>
 													{% for p in pmt %}
-													<td>{% if p.result == "False" %}<a href="{% url 'create-transaction' pk=p.pk leasepk=l.pk month=p.month year=p.year %}">Link</a>{% else %}{{p}}{% endif %}</td>
+													<td>{% if p.result == "False" %}<a href="{% url 'create-transaction' pk=p.pk leasepk=l.pk month=p.month year=p.year %}">Add</a>{% else %}{{p}}{% endif %}</td>
 													{% endfor %}
 
 												</tr>

@@ -23,11 +23,11 @@
 										}
 										</style>
 										<tr>
-											<td><em>Date</em></td>
-											<td><em>Bank Date</em></td>
-											<td><em>Amount</em></td>
-											<td><em>Person</em></td>
-											<td><em>For</em></td>
+											<th><em>Date</em></th>
+											<th><em>Bank Date</em></th>
+											<th><em>Amount</em></th>
+											<th><em>Person</em></th>
+											<th><em>For</em></th>
 										</tr>
 										{% for t in transaction_list %}
 										<tr>
@@ -36,6 +36,7 @@
 											<td>{{ t.pretty_amount}}</td>
 											<td>{{ t.person }}</td>
 											<td>{{ t.notes }}</td>
+											<td><a href="{{t.get_edit_url}}">Edit</a></td>
 										</tr>
 										{% endfor %}
 									</table>
@@ -44,10 +45,10 @@
 							<div class="col-2 col-12-medium" id="fixedmenu">
 								<section>
 									<ul>
-										<li><h3>In Bank: {{in_bank}}</h3></li>
+										<li><h3 style="color:{{in_bank_color}};">In Bank: {{in_bank}}</h3></li>
 										<li><h3>Last Updated: {{last_bank_update}}</h3></li>
-										<li></li>
-										<li><a href="{% url 'transactions-export' %}">Download All Transactions</a></li>
+										<li><a class="button" href="{% url 'create-transaction' %}">New Entry</a></li>
+										<li><p><a href="{% url 'transactions-export' %}">Download All Transactions</a></p></li>
 										<!-- <li><a href="{% url 'import' %}">Import From Backup</a></li> -->
 									</ul>
 								</section>

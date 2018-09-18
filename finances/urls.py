@@ -13,6 +13,8 @@ urlpatterns = [
 urlpatterns += [
     path('transactions', views.transactionview, name='transactions'),
     path('transactions/all_transactions.csv', views.TransactionListView.as_view(), name='transactions-export'),
+    path('transactions/edit/<int:pk>', views.TransactionUpdate.as_view(), name='edit-transaction'),
+    path('transactions/create', views.TransactionCreate.as_view(), name='create-transaction'),
     path('transactions/create/tenantrent/<int:pk>/lease/<int:leasepk>/month/<int:month>/year/<int:year>', views.tenantpayment, name='create-transaction'),
     path('import', views.import_transaction_view, name='import'),
 ]
