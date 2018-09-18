@@ -168,11 +168,12 @@ def transactionview(request):
 
     in_bank = into_bank['amount__sum']-outof_bank['amount__sum']
     in_bank = "${:,.2f}".format(in_bank)
-    
+
+    last_bank_update = transaction_list.latest('bank_posted_date').bank_posted_date
     return render(
         request,
         'finances/transaction_list.html',
-        context = {'transaction_list':transaction_list, "in_bank":in_bank}
+        context = {'transaction_list':transaction_list, "in_bank":in_bank, "last_bank_update":last_bank_update}
     )
 
 def import_transaction_view(request):

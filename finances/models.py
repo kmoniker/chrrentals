@@ -136,7 +136,7 @@ class Lease(models.Model):
         startyear = self.lease_start.year
         endmonth = self.lease_end.month
         mnthstring = "%s %s" % (calendar.month_abbr[startmonth], startyear)
-        months.append(mnthstring)
+        #months.append(mnthstring) This appends the first month, august onto the string
         while startmonth+1 != endmonth:
             if startmonth == 12:
                 startmonth = 1
@@ -227,8 +227,8 @@ class Tenant(models.Model):
 
     def get_rent_payments(self, smonth=1, syear=2018, nmonth=12, nyear=2018):
         payments = []
-        pmt = self.get_rent_payment(smonth, syear)
-        payments.append(pmt)
+        # pmt = self.get_rent_payment(smonth, syear)  THESE LINES of code add the first month (august) on
+        # payments.append(pmt)
         while nmonth != smonth or nyear != syear:
             if smonth == 12:
                 smonth = 1
