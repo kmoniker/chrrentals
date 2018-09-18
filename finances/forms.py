@@ -4,7 +4,7 @@ from datetime import datetime
 
 class RentPaidForm(forms.ModelForm):
     date = forms.DateField(widget = forms.SelectDateWidget(years=range(2010, datetime.today().year+2)))
-    bank_posted_date = forms.DateField(widget = forms.SelectDateWidget(years=range(2010, datetime.today().year+2)))
+    bank_posted_date = forms.DateField(required=False, widget = forms.SelectDateWidget(years=range(2010, datetime.today().year+2)))
     class Meta:
         model = Transaction
         fields = ('date', 'bank_posted_date','amount', 'out_flow', 'person', 'investor', 'tenant', 'notes')
@@ -15,7 +15,10 @@ class NewInvestmentForm(forms.Form):
     date = forms.DateField()
 
 class TransactionForm(forms.ModelForm):
+
     date = forms.DateField(widget = forms.SelectDateWidget(years=range(2010, datetime.today().year+2)))
+    bank_posted_date = forms.DateField(required=False, widget=forms.SelectDateWidget(years=range(2010, datetime.today().year+2)))
+
     class Meta:
         model = Transaction
-        fields = ('date','amount', 'out_flow', 'person', 'investor', 'tenant', 'notes')
+        fields = ('date', 'bank_posted_date', 'amount', 'out_flow', 'person', 'investor', 'tenant', 'notes')

@@ -96,18 +96,6 @@ def toggle_paid(request, pk, inv, pd):
     hour.save()
     return redirect('hourview', inv=inv, pd=pd)
 
-class TransactionCreate(CreateView):
-    model = Transaction
-    form_class = TransactionForm
-    initial={
-            'date': datetime.today(),
-            'bank_posted_date': None
-            }
-
-class TransactionUpdate(UpdateView):
-    model = Transaction
-    form_class = RentPaidForm
-
 def tenantpayment(request, pk, leasepk, year, month):
     tenant = Tenant.objects.get(pk = pk)
     amount = tenant.lease.get(pk=leasepk).monthly_payment()
@@ -159,6 +147,18 @@ class TenantDetail(generic.DetailView):
     model=Tenant
     fields = "__all__"
 
+class TransactionCreate(CreateView):
+    model = Transaction
+    form_class = TransactionForm
+    initial={
+            'date': datetime.today(),
+            }
+
+class TransactionUpdate(UpdateView):
+    model = Transaction
+    form_class = TransactionForm
+
+
 class TransactionListView(generic.ListView): #For exporting Transactions
     model = Transaction
     context_object_name = "transaction_list"
@@ -179,10 +179,19 @@ def transactionview(request):
 
     last_bank_update = transaction_list.latest('bank_posted_date').bank_posted_date
 
-    bank = Asset.objects.get(name="UCCU Bank Account")
-    print(bank.get_value(), in_bank)
-    if bank.get_value() == in_bank:
+
+    print(transaction_list, "bank last update\n", last_bank_update)
+
+    try:
+        value = Asset.objects.get(name="UCCU Bank Account").get_value()
+    except:
+        value = "error"
+
+    print(value, in_bank)
+    if value == in_bank:
         in_bank_color = "green"
+    elif value == "error":
+        in_bank_color = "blue"
     else:
         in_bank_color = "red"
 
