@@ -224,7 +224,7 @@ class Tenant(models.Model):
          return reverse('update-hour', args=[str(self.id)])
 
     def get_absolute_url(self):
-         return reverse('tenantdetail', args=[str(self.id)])
+         return reverse('tenant-detail', args=[str(self.id)])
 
     def get_current_lease(self):
         return self.lease.latest('lease_start')

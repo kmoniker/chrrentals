@@ -150,6 +150,45 @@ class TenantDetail(generic.DetailView):
     model=Tenant
     fields = "__all__"
 
+def tenantdetail(request, pk):
+    tenant = Tenant.objects.get(pk=pk)
+    menu = Tenant.objects.all().order_by('active')
+    transactions = tenant.transaction_set.all().order_by("-date")
+    return render(
+        request,
+        'finances/tenant_detail.html',
+        context = {
+                    "menu":menu,
+                    "tenant":tenant,
+                    "transaction_set":transactions,
+                    }
+    )
+
+def tenantoverview(request):
+    menu = Tenant.objects.all()
+    transactions = Transaction.objects.exclude(tenant=None).order_by("-date")
+    leases = Lease.objects.all()
+    lease_list = []
+    for l in leases:
+        if l.is_current():
+            lease_list.append(l)
+
+    tenant = {
+                "name":"Overview",
+    }
+
+    return render(
+        request,
+        'finances/tenant_detail.html',
+        context = {
+                    "menu":menu,
+                    "tenant":tenant,
+                    "transaction_set":transactions,
+                    "lease_list":lease_list,
+                    }
+    )
+
+
 class TransactionCreate(CreateView):
     model = Transaction
     form_class = TransactionForm

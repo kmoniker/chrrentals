@@ -6,7 +6,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('leases', views.leaseview, name='leaseview'),
     path('leases/<str:c>', views.leaseview, name='leaseview'),
-    path('tenant/<int:pk>', views.TenantDetail.as_view(), name='tenantdetail'),
+    path('tenant', views.tenantoverview, name='tenant-overview'),
+    path('tenant/<int:pk>', views.tenantdetail, name='tenant-detail'),
 ]
 
 #Transaction URLs
