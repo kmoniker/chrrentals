@@ -28,6 +28,11 @@ urlpatterns += [
     path('hours/update/paid/<int:pk>/<int:inv>/<int:pd>', views.toggle_paid, name='toggle-paid'),
 ]
 
+urlpatterns += [
+    path('investors', views.investoroverview, name="investor-overview"),
+    path('investor/<int:pk>', views.investordetail, name='investor-detail'),
+]
+
 #Template URLS
 urlpatterns += [
     path('twocolumn1.html', views.twocolumn1, name='2col1'),

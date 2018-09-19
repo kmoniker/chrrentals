@@ -29,7 +29,7 @@
 										<a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == "index" %}current-page-item{% endif %}">Home</a>
 										<a href="{% url 'leaseview' %}" class="{% if request.resolver_match.url_name == "leaseview" %}current-page-item{% endif %}">Leases</a>
 										<a href="{% url '3col' %}" class="{% if request.resolver_match.url_name == "3col" %}current-page-item{% endif %}">Tenants</a>
-										<a href="{% url '2col2' %}" class="{% if request.resolver_match.url_name == "2col2" %}current-page-item{% endif %}">Investors</a>
+										<a href="{% url 'investor-overview' %}" class="{% if request.resolver_match.url_name == "investor-detail" %}current-page-item{% endif %}">Investors</a>
 										<a href="{% url 'transactions' %}" class="{% if request.resolver_match.url_name == "transactions" %}current-page-item{% endif %}">Transactions</a>
 										<a href ="https://drive.google.com/drive/folders/0By7LWw8MKHXMfkJMZ2lsSndkZFpESTdvTW1JeUZrR2o5UmxGaUdqQXJDVzJVUGhLa0EzS3c?usp=sharing">Documents</a>
 										<a href="{% url 'admin:index' %}">Admin</a>

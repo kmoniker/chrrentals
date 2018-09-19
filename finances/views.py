@@ -105,7 +105,7 @@ def tenantpayment(request, pk, leasepk, year, month):
     if request.method == 'POST':
 
         # Create a form instance and populate it with data from the request (binding):
-        form = RentPaidForm(request.POST)
+        form = TransactionForm(request.POST)
         # Check if the form is valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
@@ -129,7 +129,7 @@ def tenantpayment(request, pk, leasepk, year, month):
 
     # If this is a GET (or any other method) create the default form.
     else:
-        form = RentPaidForm(initial={
+        form = TransactionForm(initial={
                                     'date': "%s-%s-01" % (year, month),
                                     'bank_posted_date': "%s-%s-07" % (year, month),
                                     'amount': amount,
@@ -178,16 +178,15 @@ def transactionview(request):
     in_bank = "${:,.2f}".format(in_bank)
 
     last_bank_update = transaction_list.latest('bank_posted_date').bank_posted_date
+    last_bank_update_transaction = transaction_list.latest('bank_posted_date')
 
-
-    print(transaction_list, "bank last update\n", last_bank_update)
+    print(transaction_list, "\nbank last update", last_bank_update, "\nlast bank update transaction", last_bank_update_transaction)
 
     try:
         value = Asset.objects.get(name="UCCU Bank Account").get_value()
     except:
         value = "error"
 
-    print(value, in_bank)
     if value == in_bank:
         in_bank_color = "green"
     elif value == "error":
@@ -261,6 +260,53 @@ def import_transaction_view(request):
                 # creates a tuple of the new object or
                 # current object and a boolean of if it was created
     return redirect('index')
+
+def investordetail(request, pk):
+    investor = Investor.objects.get(pk=pk)
+    menu = Investor.objects.all()
+    transactions = investor.transaction_set.all().extra(select={"order_date":"COALESCE(bank_posted_date, date)"}, order_by=["-order_date", "-date"])
+    hours = investor.hour_set.all()
+    return render(
+        request,
+        'finances/investor_detail.html',
+        context = {
+                    "menu":menu,
+                    "investor":investor,
+                    "transaction_set":transactions,
+                    "hours":hours,
+                    }
+    )
+
+def investoroverview(request):
+    menu = Investor.objects.all()
+
+    assets = Asset.objects.all()
+    total=0
+    for a in assets:
+        val = a.get_value()
+        total += a.get_value()
+    equity = "${:,.2f}".format(total)
+
+    transactions = Transaction.objects.exclude(investor=None).extra(select={"order_date":"COALESCE(bank_posted_date, date)"}, order_by=["-order_date", "-date"])
+
+    hours = Hour.objects.all()
+
+    investor = {
+                "name":"Overview",
+                "pretty_percent":"100.00%",
+                "get_equity": equity,
+    }
+
+    return render(
+        request,
+        'finances/investor_detail.html',
+        context = {
+                    "menu":menu,
+                    "investor":investor,
+                    "transaction_set":transactions,
+                    "hours":hours,
+                    }
+    )
 
 # template VIEWS
 def twocolumn1(request):

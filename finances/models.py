@@ -76,13 +76,18 @@ class Investor(models.Model):
         p = self.percentage*100
         return "{:.2f}%".format(p)
 
-    def equity(self):
+    def get_equity(self):
         assets = Asset.objects.all()
         total=0
+
         for a in assets:
-            total += a.value
+            val = a.get_value()
+            total += a.get_value()
         t = self.percentage*float(total)
         return "${:,.2f}".format(t)
+
+    def get_absolute_url(self):
+         return reverse('investor-detail', args=[str(self.id)])
 
     def __str__(self):
         return self.name
@@ -91,18 +96,20 @@ class Asset(models.Model):
     name = models.CharField(max_length=200)
     property = models.BooleanField(default=True)
 
-    def get_value(self):
+    def get_value(self, str=False):
         now = datetime.now().astimezone()
         lst = self.assetvalue_set.all()
         dates=[]
         for v in lst:
             dates.append(v.date)
         if len(dates) == 0:
-            value = "${:,.2f}".format(0)
+            value = 0
         else:
             youngest = max(dt for dt in dates if dt < now)
             assetvalue = self.assetvalue_set.filter(date=youngest)[0]
-            value = "${:,.2f}".format(assetvalue.value)
+            value = assetvalue.value
+        if str == True:
+            value = "${:,.2f}".format(value)
         return value
 
     def __str__(self):
@@ -208,6 +215,7 @@ class Tenant(models.Model):
     name = models.CharField(max_length=200)
     lease = models.ManyToManyField('Lease', blank=True)
     active = models.BooleanField(default=True, help_text="Is this tenant on an active lease?")
+    notes = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
