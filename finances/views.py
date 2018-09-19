@@ -73,7 +73,6 @@ def hourview(request, inv=0, pd=0):
 
 
     total_hours = hours.aggregate(Sum('hours'))
-    print(total_hours)
     total_hours = total_hours['hours__sum']
     return render(
     request,
@@ -349,6 +348,52 @@ def investoroverview(request):
                     "hours":hours,
                     }
     )
+
+def dividends(request):
+    investors = Investor.objects.exclude(percentage=0)
+
+    t_percent = Investor.objects.aggregate(Sum('percentage'))
+    t_out = 0
+    for i in investors:
+        t_out += i.get_dividend()
+    total = {
+            "percent":"{}%".format(t_percent['percentage__sum']*100),
+            "total_out":"${:,.2f}".format(t_out)
+            }
+
+    transaction_set = Transaction.objects.filter(notes__icontains="dividend").exclude(investor=None)
+    latest_transaction = transaction_set.latest('date')
+    
+    date = datetime.today()
+    notes = "%s %s Dividend" % (calendar.month_name[date.month-1], date.year)
+
+    return render(
+        request,
+        'dividends.html',
+        context = {
+                "investors":investors,
+                "total":total,
+                "last_dividend":latest_transaction,
+                "notes":notes
+        }
+    )
+
+def paydividends(request):
+    investor_lst = Investor.objects.exclude(percentage=0)
+    date = datetime.today()
+    notes = "%s %s Dividend" % (calendar.month_name[date.month-1], date.year)
+    for i in investor_lst:
+        Transaction.objects.create(date = date,
+            bank_posted_date = None,
+            amount = i.get_dividend(),
+            person = i.name,
+            notes = notes,
+            out_flow = True,
+            tenant = None,
+            investor = i
+            )
+
+    return redirect('transactions')
 
 # template VIEWS
 def twocolumn1(request):

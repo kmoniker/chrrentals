@@ -1,0 +1,57 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+			<!-- Main -->
+				<div id="main">
+					<div class="container">
+						<div class="row main-row">
+							<div class="col-12">
+								<style>
+								table {
+									width:100%;
+								}
+								tr:nth-child(even) {
+									background-color: #f2f2f2;
+								}
+
+								td, th {
+									padding:10px;
+									text-align:left;
+								}
+								</style>
+								<section>
+									<h2>Dividends to be paid out</h2>
+									<h3>Last Dividend: {{last_dividend.date}}</h3>
+									<h4>{{last_dividend.notes}}</h4>
+								</section>
+
+								<section>
+									<table>
+										<tr>
+											<th><em>Investor</em></th>
+											<th><em>Percent</em></th>
+											<th><em>Dividend</em></th>
+										</tr>
+										{% for i in investors %}
+										<tr>
+											<td>{{ i.name }}</td>
+											<td>{{ i.pretty_percent }}</td>
+											<td>${{ i.get_dividend|stringformat:".2f" }}</td>
+										</tr>
+										{% endfor %}
+										<tr>
+											<td>Total</td>
+											<td>{{total.percent}}</td>
+											<td>{{total.total_out}}</td>
+										</tr>
+									</table>
+								</section>
+								<section>
+									<a href="{% url 'pay-dividends' %}" class="button">Pay {{notes}}</a>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+
+{% endblock %}

@@ -86,6 +86,9 @@ class Investor(models.Model):
         t = self.percentage*float(total)
         return "${:,.2f}".format(t)
 
+    def get_dividend(self):
+        return self.percentage*1000
+
     def get_absolute_url(self):
          return reverse('investor-detail', args=[str(self.id)])
 
