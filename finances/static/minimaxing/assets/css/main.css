@@ -24,6 +24,16 @@ section, summary, time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;}
 
+td, th {
+	padding:10px;
+	text-align:left;
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;}
@@ -46,6 +56,7 @@ blockquote, q {
 	}
 
 table {
+	width:100%;
 	border-collapse: collapse;
 	border-spacing: 0;
 }
@@ -164,6 +175,7 @@ input, select, textarea {
 
 	section, article {
 		margin: 0 0 60px 0;
+		overflow-x: auto;
 	}
 
 	section:last-child, article:last-child {

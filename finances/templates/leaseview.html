@@ -32,19 +32,6 @@
 									<h4>{{l.lease_start}} - {{l.lease_end}}</h4>
 									<h5>Deposit: ${{l.required_deposit}} -- Monthly Payment: ${{l.monthly_payment}}</h5 >
 											<table>
-												<style>
-												table {
-													width:100%;
-												}
-												tr:nth-child(even) {
-													background-color: #f2f2f2;
-												}
-
-												td, th {
-													padding:10px;
-													text-align:left;
-												}
-												</style>
 												<tr>
 													<th style="width:130px">Tenant</th>
 													{% for m in l.get_months %}
