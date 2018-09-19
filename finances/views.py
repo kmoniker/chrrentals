@@ -363,7 +363,7 @@ def dividends(request):
 
     transaction_set = Transaction.objects.filter(notes__icontains="dividend").exclude(investor=None)
     latest_transaction = transaction_set.latest('date')
-    
+
     date = datetime.today()
     notes = "%s %s Dividend" % (calendar.month_name[date.month-1], date.year)
 
@@ -393,7 +393,7 @@ def paydividends(request):
             investor = i
             )
 
-    return redirect('transactions')
+    return redirect('investor-overview')
 
 # template VIEWS
 def twocolumn1(request):
