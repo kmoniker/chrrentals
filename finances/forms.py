@@ -1,5 +1,5 @@
 from django import forms
-from .models import Transaction
+from .models import Transaction, Hour
 from datetime import datetime
 
 class NewInvestmentForm(forms.Form):
@@ -14,3 +14,9 @@ class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
         fields = ('date', 'bank_posted_date', 'amount', 'out_flow', 'person', 'investor', 'tenant', 'notes')
+
+class HourForm(forms.ModelForm):
+    date = forms.DateField(widget = forms.SelectDateWidget(years=range(2010, datetime.today().year+2)))
+    class Meta:
+        model = Hour
+        fields = "__all__"

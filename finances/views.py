@@ -83,11 +83,14 @@ def hourview(request, inv=0, pd=0):
 
 class HourCreate(CreateView):
     model = Hour
-    fields = ('name', 'date', 'hours', 'work')
+    form_class = HourForm
+    initial={
+            'date': datetime.today(),
+            }
 
 class HourUpdate(UpdateView):
     model = Hour
-    fields = ('name', 'date', 'hours', 'work')
+    form_class = HourForm
 
 def toggle_paid(request, pk, inv, pd):
     hour = Hour.objects.get(pk=pk)
@@ -264,7 +267,7 @@ def import_transaction_view(request):
 def investordetail(request, pk):
     investor = Investor.objects.get(pk=pk)
     menu = Investor.objects.all()
-    transactions = investor.transaction_set.all().extra(select={"order_date":"COALESCE(bank_posted_date, date)"}, order_by=["-order_date", "-date"])
+    transactions = investor.transaction_set.all().order_by("-date")
     hours = investor.hour_set.all()
     return render(
         request,
@@ -287,7 +290,7 @@ def investoroverview(request):
         total += a.get_value()
     equity = "${:,.2f}".format(total)
 
-    transactions = Transaction.objects.exclude(investor=None).extra(select={"order_date":"COALESCE(bank_posted_date, date)"}, order_by=["-order_date", "-date"])
+    transactions = Transaction.objects.exclude(investor=None).order_by("-date")
 
     hours = Hour.objects.all()
 

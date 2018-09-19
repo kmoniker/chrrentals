@@ -46,7 +46,7 @@
 								</section>
 								{% if transaction_set %}
 								<section>
-									<h4>Transactions</h4>
+									<h4>Transactions - <a href="{% url 'transactions' %}">All</a> - <a href="{% url 'create-transaction' %}">Add</a></h4>
 									<table>
 										<tr>
 											<th><em>Date</em></th>
@@ -70,7 +70,7 @@
 								{% endif %}
 								{% if hours %}
 								<section>
-									<h4>Hours	-	<a href="{% url 'hourview'}">Edit</a></h4>
+									<h4>Hours - <a href="{% url 'hourview' %}">All</a> - <a href="{% url 'create-hour' %}">Add</a></h4>
 									<table>
 										<tr>
 											<th style='width:120px;'>Date</th>
