@@ -216,13 +216,15 @@ def transactionview(request):
     outof_bank = Transaction.objects.filter(out_flow=True).exclude(bank_posted_date=None).aggregate(Sum('amount'))
 
     in_bank = into_bank['amount__sum']-outof_bank['amount__sum']
-    in_bank = "${:,.2f}".format(in_bank)
 
     last_bank_update = transaction_list.latest('bank_posted_date').bank_posted_date
     last_bank_update_transaction = transaction_list.latest('bank_posted_date')
-
+    earliest_bank_update = transaction_list.earliest('bank_posted_date')
     print(transaction_list, "\nbank last update", last_bank_update, "\nlast bank update transaction", last_bank_update_transaction)
-
+    print('earliest bank update', earliest_bank_update, 'bankdate', earliest_bank_update.bank_posted_date)
+    print(transaction_list.first())
+    print(transaction_list.last())
+    print(Transaction.objects.exclude(bank_posted_date=None).order_by('-bank_posted_date').first())
     try:
         value = Asset.objects.get(name="UCCU Bank Account").get_value()
     except:
@@ -240,7 +242,7 @@ def transactionview(request):
         'finances/transaction_list.html',
         context = {
                     'transaction_list':transaction_list,
-                    "in_bank":in_bank,
+                    "in_bank": "${:,.2f}".format(in_bank),
                     "last_bank_update":last_bank_update,
                     "in_bank_color":in_bank_color,
                     }
