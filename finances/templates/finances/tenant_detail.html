@@ -9,9 +9,9 @@
 								<section>
 									<h2>Tenants</h2>
 									<ul class="link-list">
-										<li><a href="{% url 'tenant-overview' %}">Overview</a></li>
+										<li><a class ="{% if request.resolver_match.url_name == "tenant-overview" %}bold{% endif %}" href="{% url 'tenant-overview' %}">Overview</a></li>
 										{% for i in menu %}
-										<li><a href="{{i.get_absolute_url}}">{{i.name}}</a></li>
+										<li><a class="{% if pk == i.pk %}bold{% endif %}" style="{% if i.active == False %}color:grey;{% endif %}" href="{{i.get_absolute_url}}">{{i.name}}</a></li>
 										{% endfor %}
 									</ul>
 								</section>

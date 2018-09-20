@@ -47,3 +47,4 @@ class TransactionAdmin(admin.ModelAdmin):
 class TenantAdmin(admin.ModelAdmin):
     inlines = [TransactionInline,]
     ordering=('name',)
+    list_display = ('name', 'get_current_lease', 'active')

@@ -33,6 +33,9 @@ tr:nth-child(even) {
 	background-color: #f2f2f2;
 }
 
+a.bold {
+	font-weight: bold;
+}
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -1522,6 +1525,30 @@ input, select, textarea {
 			box-shadow: inset 0px 0px 0px 1px #3ecceb;
 		}
 
+	.logobutton{
+		background-image: -moz-linear-gradient(top, #ececec, #d2d2d2);
+		background-image: -webkit-linear-gradient(top, #ececec, #d2d2d2);
+		background-image: -ms-linear-gradient(top, #ececec, #d2d2d2);
+		background-image: linear-gradient(top, #ececec, #d2d2d2);
+		display: inline-block;
+		padding: 15px 25px 15px 25px;
+		background-color: #ececec;
+		border-radius: 10px;
+		text-transform: lowercase;
+		text-decoration: none;
+		color: #fff;
+		font-size: 1.2em;
+		letter-spacing: -1px;
+		border: solid 1px #c1c1c1;
+		box-shadow: inset 0px 0px 0px 1px #dadada;
+	}
+		.logobutton:hover {
+			background-image: -moz-linear-gradient(top, #f9f9f9, #d2d2d2);
+			background-image: -webkit-linear-gradient(top, #f9f9f9, #d2d2d2);
+			background-image: -ms-linear-gradient(top, #f9f9f9, #d2d2d2);
+			background-image: linear-gradient(top, #f9f9f9, #d2d2d2);
+			background-color: #f1f1f1;
+		}
 /* Header */
 
 	#header-wrapper {

@@ -27,12 +27,10 @@
 									{% if user.is_authenticated %}
 									<nav id="nav">
 										<a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == "index" %}current-page-item{% endif %}">Home</a>
+										<a href="{% url 'investor-overview' %}" class="{% if request.resolver_match.url_name == "investor-detail" %}current-page-item{% endif %}">Investors</a>
 										<a href="{% url 'leaseview' %}" class="{% if request.resolver_match.url_name == "leaseview" %}current-page-item{% endif %}">Leases</a>
 										<a href="{% url 'tenant-overview' %}" class="{% if request.resolver_match.url_name == "tenant-overview" %}current-page-item{% endif %}">Tenants</a>
-										<a href="{% url 'investor-overview' %}" class="{% if request.resolver_match.url_name == "investor-detail" %}current-page-item{% endif %}">Investors</a>
 										<a href="{% url 'transactions' %}" class="{% if request.resolver_match.url_name == "transactions" %}current-page-item{% endif %}">Transactions</a>
-										<a href ="https://drive.google.com/drive/folders/0By7LWw8MKHXMfkJMZ2lsSndkZFpESTdvTW1JeUZrR2o5UmxGaUdqQXJDVzJVUGhLa0EzS3c?usp=sharing">Documents</a>
-										<a href="{% url 'admin:index' %}">Admin</a>
 									</nav>
 									{% endif %}
 								</header>
@@ -48,10 +46,10 @@
 				<div id="footer-wrapper">
 					<div class="container">
 						<div class="row">
-							<div class="col-8 col-12-medium">
+							<div class="col-12 col-12-medium">
 								{% if user.is_authenticated %}
 								<section>
-									<h2>How about a truckload of links?</h2>
+									<h2>Links to stuff</h2>
 									<div>
 										<div class="row">
 											<div class="col-3 col-6-medium col-12-small">
@@ -65,7 +63,7 @@
 											</div>
 											<div class="col-3 col-6-medium col-12-small">
 												<ul class="link-list">
-													<li><a href="#">Quis accumsan lorem</a></li>
+													<li><a href="{% url 'admin:index' %}">Admin</a></li>
 													<li><a href="#">Sed neque nisi consequat</a></li>
 													<li><a href="#">Eget et amet consequat</a></li>
 													<li><a href="#">Dapibus sed mattis blandit</a></li>
@@ -73,39 +71,20 @@
 												</ul>
 											</div>
 											<div class="col-3 col-6-medium col-12-small">
-												<ul class="link-list">
-													<li><a href="#">Sed neque nisi consequat</a></li>
-													<li><a href="#">Dapibus sed mattis blandit</a></li>
-													<li><a href="#">Quis accumsan lorem</a></li>
-													<li><a href="#">Suspendisse varius ipsum</a></li>
-													<li><a href="#">Eget et amet consequat</a></li>
-												</ul>
+												<a href ="https://drive.google.com/drive/folders/0By7LWw8MKHXMfkJMZ2lsSndkZFpESTdvTW1JeUZrR2o5UmxGaUdqQXJDVzJVUGhLa0EzS3c?usp=sharing"
+												class="logobutton"
+												target="_blank"
+												><img style="height:45px;" src="{% static 'img/drive-logo.png' %}" alt="google drive documents folder"></a>
+												<p>Link to rentals folder</p>
 											</div>
 											<div class="col-3 col-6-medium col-12-small">
-												<ul class="link-list">
-													<li><a href="#">Quis accumsan lorem</a></li>
-													<li><a href="#">Sed neque nisi consequat</a></li>
-													<li><a href="#">Eget et amet consequat</a></li>
-													<li><a href="#">Dapibus sed mattis blandit</a></li>
-													<li><a href="#">Vitae magna sed dolore</a></li>
-												</ul>
+												<a href="https://home.cozy.co" class="logobutton" target="_blank"><img style="height:45px; margin:0px 17px 0px 17px" src="{% static 'img/cozy-brand.svg' %}" alt="cozy"></a>
+												<p>Credentials:<br>
+													caseywchristensen@gmail.com<br>
+													brownstone1</p>
 											</div>
 										</div>
 									</div>
-								</section>
-								{% endif %}
-							</div>
-							<div class="col-4 col-12-medium">
-								{% if user.is_authenticated %}
-								<section>
-									<h2>Something of interest</h2>
-									<p>Duis neque nisi, dapibus sed mattis quis, rutrum accumsan sed.
-									Suspendisse eu varius nibh. Suspendisse vitae magna eget odio amet
-									mollis justo facilisis quis. Sed sagittis mauris amet tellus gravida
-									lorem ipsum dolor sit blandit.</p>
-									<footer class="controls">
-										<a href="#" class="button">Oh, please continue ....</a>
-									</footer>
 								</section>
 								{% endif %}
 							</div>

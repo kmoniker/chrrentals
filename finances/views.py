@@ -151,7 +151,7 @@ class TenantDetail(generic.DetailView):
 
 def tenantdetail(request, pk):
     tenant = Tenant.objects.get(pk=pk)
-    menu = Tenant.objects.all().order_by('active')
+    menu = Tenant.objects.all().order_by('-active', 'name')
     transactions = tenant.transaction_set.all().order_by("-date")
     return render(
         request,
@@ -160,11 +160,12 @@ def tenantdetail(request, pk):
                     "menu":menu,
                     "tenant":tenant,
                     "transaction_set":transactions,
+                    "pk":pk
                     }
     )
 
 def tenantoverview(request):
-    menu = Tenant.objects.all()
+    menu = Tenant.objects.all().order_by('-active', 'name')
     transactions = Transaction.objects.exclude(tenant=None).order_by("-date")
     leases = Lease.objects.all()
     lease_list = []
@@ -218,7 +219,7 @@ def transactionview(request):
     in_bank = into_bank['amount__sum']-outof_bank['amount__sum']
 
     last_bank_update = Transaction.objects.exclude(bank_posted_date=None).order_by('-bank_posted_date').first().bank_posted_date
-    
+
     try:
         value = Asset.objects.get(name="UCCU Bank Account").get_value()
     except:
@@ -302,7 +303,7 @@ def investordetail(request, pk):
     investor = Investor.objects.get(pk=pk)
     menu = Investor.objects.all()
     transactions = investor.transaction_set.all().order_by("-date")
-    hours = investor.hour_set.all()
+    hours = investor.hour_set.all().order_by('-date')
     return render(
         request,
         'finances/investor_detail.html',
@@ -326,7 +327,7 @@ def investoroverview(request):
 
     transactions = Transaction.objects.exclude(investor=None).order_by("-date")
 
-    hours = Hour.objects.all()
+    hours = Hour.objects.all().order_by('-date')
 
     investor = {
                 "name":"Overview",
