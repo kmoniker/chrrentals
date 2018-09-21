@@ -225,6 +225,11 @@ def tenantoverview(request):
     leases = Lease.objects.all()
     deposits = Deposit.objects.all().order_by('-date')
     deposit_value = Deposit.objects.aggregate(Sum("amount"))['amount__sum']
+
+    try:
+        deposit_value = "${:,.2f}".format(deposit_value)
+    except TypeError:
+        deposit_value = None
     lease_list = []
     for l in leases:
         if l.is_current():
@@ -232,7 +237,7 @@ def tenantoverview(request):
 
     tenant = {
                 "name":"Tenant Overview",
-                "get_deposit_value":"${:,.2f}".format(deposit_value),
+                "get_deposit_value":deposit_value,
     }
 
     return render(
