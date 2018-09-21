@@ -58,7 +58,7 @@
 								{% endif %}
 								{% if hours %}
 								<section>
-									<h4>Hours - <a href="{% url 'hourview' %}">All</a> - <a href="{% url 'create-hour' investor.pk %}">Add</a>{% if request.resolver_match.url_name == "investor-detail" %} - Rate: ${{investor.rate}}/hr - <a href="{% url 'edit-hourly-rate' investor.pk %}">Edit Rate</a>{% endif %}</h4>
+									<h4>Hours - <a href="{% url 'hourview' %}">All</a>{% if request.resolver_match.url_name == "investor-detail" %} - <a href="{% url 'create-hour' investor.pk %}">Add</a> - Rate: ${{investor.rate}}/hr - <a href="{% url 'edit-hourly-rate' investor.pk %}">Edit Rate</a>{% endif %}</h4>
 									<table>
 										<tr>
 											<th style='width:120px;'>Date</th>
