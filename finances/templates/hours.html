@@ -42,7 +42,7 @@
 												<td>{{h.date}}</td>
 												<td><a href="{{h.name.get_absolute_url}}">{{h.name}}</a></td>
 												<td>{{h.hours}}</td>
-												<td>${{h.get_rate}}/hr</td>
+												<td>${{h.rate}}/hr</td>
 												<td>{{h.work}}</td>
 												<td><a href="{% url 'toggle-paid' pk=h.pk inv=inv pd=pd %}">{{h.paid}}</a></td>
 												<td><a href="{{ h.get_edit_url }}">Edit</a></td>

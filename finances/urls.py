@@ -41,7 +41,8 @@ urlpatterns += [
 urlpatterns += [
     path('hours', views.hourview, name='hourview'),
     path('hours/<int:inv>/paid/<int:pd>', views.hourview, name='hourview'),
-    path('hours/create/', views.HourCreate.as_view(), name='create-hour'),
+    path('hours/create/', views.hourcreate, name='create-hour'),
+    path('hours/create/<int:invpk>', views.hourcreate, name='create-hour'),
     path('hours/update/<int:pk>', views.HourUpdate.as_view(), name='update-hour'),
     path('hours/update/paid/<int:pk>/<int:inv>/<int:pd>', views.toggle_paid, name='toggle-paid'),
 ]

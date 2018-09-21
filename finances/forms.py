@@ -21,7 +21,7 @@ class HourForm(forms.ModelForm):
     date = forms.DateField(widget = forms.SelectDateWidget(years=range(2010, datetime.today().year+2)))
     class Meta:
         model = Hour
-        fields = "__all__"
+        fields = ("name", "date", "hours", "work", "paid")
 
 class HourlyRateForm(forms.ModelForm):
     class Meta:

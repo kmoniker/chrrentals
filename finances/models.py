@@ -204,6 +204,7 @@ class Hour(models.Model):
     hours = models.IntegerField()
     work = models.CharField(max_length=400, help_text="what were you doing?")
     paid = models.BooleanField(default=False)
+    rate = models.DecimalField(max_digits=8, decimal_places=2, help_text="The hourly rate paid for work.")
 
     def __str__(self):
         return "%s - %s (%s)" % (self.hours, self.name, self.date)
@@ -213,9 +214,6 @@ class Hour(models.Model):
 
     def get_edit_url(self):
         return reverse('update-hour', args=[str(self.id)])
-
-    def get_rate(self):
-        return self.name.rate
 
 class Tenant(models.Model):
     name = models.CharField(max_length=200)

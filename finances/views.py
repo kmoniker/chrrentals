@@ -76,7 +76,7 @@ def hourview(request, inv=0, pd=0):
     total_hours = total_hours['hours__sum']
     total_value = 0
     for h in hours:
-        total_value += h.hours*h.get_rate()
+        total_value += h.hours*h.name.rate
 
     return render(
     request,
@@ -91,12 +91,46 @@ def hourview(request, inv=0, pd=0):
             }
     )
 
-class HourCreate(CreateView):
-    model = Hour
-    form_class = HourForm
-    initial={
-            'date': datetime.today(),
-            }
+def hourcreate(request, invpk=0):
+     # If this is a POST request then process the Form data
+    if request.method == 'POST':
+        # Create a form instance and populate it with data from the request (binding):
+        form = HourForm(request.POST)
+        # Check if the form is valid:
+        if form.is_valid():
+            print(form.cleaned_data)
+            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+            h = Hour(
+                    name = form.cleaned_data['name'],
+                    date = form.cleaned_data['date'],
+                    hours = form.cleaned_data['hours'],
+                    work = form.cleaned_data['work'],
+                    paid = form.cleaned_data['paid'],
+                    rate = form.cleaned_data['name'].rate
+                    )
+            h.save()
+
+
+            # redirect to a new URL:
+            return redirect(reverse('investor-detail', args=[str(form.cleaned_data['name'].pk)]))
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        if invpk == 0:
+            initial_investor = None
+        else:
+            initial_investor = Investor.objects.get(pk=invpk)
+        form = HourForm(initial={
+                                    'name': initial_investor,
+                                    'date': datetime.today(),
+                                    })
+
+    return render(
+        request,
+        'finances/generic_form.html',
+        context = {'form':form}
+        )
+
 
 class HourUpdate(UpdateView):
     model = Hour
