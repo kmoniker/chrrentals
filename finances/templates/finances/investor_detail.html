@@ -10,9 +10,9 @@
 								<section>
 									<h2>Investors</h2>
 									<ul class="link-list">
-										<li><a href="{% url 'investor-overview' %}">Overview</a></li>
+										<li><a class ="{% if request.resolver_match.url_name == "investor-overview" %}bold{% endif %}" href="{% url 'investor-overview' %}">Overview</a></li>
 										{% for i in menu %}
-										<li><a href="{{i.get_absolute_url}}">{{i.name}}</a></li>
+										<li><a class="{% if pk == i.pk %}bold{% endif %}" href="{{i.get_absolute_url}}">{{i.name}}</a></li>
 										{% endfor %}
 									</ul>
 								</section>
@@ -58,7 +58,7 @@
 								{% endif %}
 								{% if hours %}
 								<section>
-									<h4>Hours - <a href="{% url 'hourview' %}">All</a> - <a href="{% url 'create-hour' %}">Add</a></h4>
+									<h4>Hours - <a href="{% url 'hourview' %}">All</a> - <a href="{% url 'create-hour' %}">Add</a>{% if request.resolver_match.url_name == "investor-detail" %} - Rate: ${{investor.rate}}/hr - <a href="{% url 'edit-hourly-rate' investor.pk %}">Edit Rate</a>{% endif %}</h4>
 									<table>
 										<tr>
 											<th style='width:120px;'>Date</th>

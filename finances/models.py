@@ -44,6 +44,7 @@ class Transaction(models.Model):
 class Investor(models.Model):
     name = models.CharField(max_length=200)
     percentage = models.FloatField(default=0)
+    rate = models.DecimalField(max_digits=8, decimal_places=2, help_text="The hourly rate paid for work.", default=20)
 
     def pretty_total_invested(self):
         transactions = self.transaction_set.all()
@@ -211,8 +212,10 @@ class Hour(models.Model):
         return reverse('hourview')
 
     def get_edit_url(self):
-         return reverse('update-hour', args=[str(self.id)])
+        return reverse('update-hour', args=[str(self.id)])
 
+    def get_rate(self):
+        return self.name.rate
 
 class Tenant(models.Model):
     name = models.CharField(max_length=200)

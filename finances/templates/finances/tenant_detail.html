@@ -58,6 +58,8 @@
 										</tr>
 										{% endfor %}
 									</table>
+									{% else %}
+									<a class='button' href="{% url 'initial-deposit' pk=tenant.pk %}">Initial Deposit</a>
 									{% endif %}
 								</section>
 								{% if transaction_set %}

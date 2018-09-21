@@ -49,6 +49,7 @@ urlpatterns += [
 urlpatterns += [
     path('investors', views.investoroverview, name="investor-overview"),
     path('investor/<int:pk>', views.investordetail, name='investor-detail'),
+    path('investor/edit/hourlyrate/<int:pk>', views.InvestorUpdate.as_view(), name='edit-hourly-rate'),
 ]
 
 #Template URLS

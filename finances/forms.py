@@ -1,5 +1,5 @@
 from django import forms
-from .models import Transaction, Hour, Tenant
+from .models import Transaction, Hour, Tenant, Investor
 from datetime import datetime
 
 class InitialDepositForm(forms.Form):
@@ -10,7 +10,6 @@ class InitialDepositForm(forms.Form):
     notes = forms.CharField(widget=forms.Textarea)
 
 class TransactionForm(forms.ModelForm):
-
     date = forms.DateField(widget = forms.SelectDateWidget(years=range(2010, datetime.today().year+2)))
     bank_posted_date = forms.DateField(required=False, widget=forms.SelectDateWidget(years=range(2010, datetime.today().year+2)))
 
@@ -23,3 +22,8 @@ class HourForm(forms.ModelForm):
     class Meta:
         model = Hour
         fields = "__all__"
+
+class HourlyRateForm(forms.ModelForm):
+    class Meta:
+        model = Investor
+        fields = ('rate',)

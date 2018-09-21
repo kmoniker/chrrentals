@@ -30,6 +30,7 @@
 												<th style='width:120px;'>Date</th>
 												<th style='width:70px;'>Name</th>
 												<th style='width:40px;'>Hours</th>
+												<th>Rate</th>
 												<th>For</th>
 												<th style='width:30px;'>Paid</th>
 												<th style='width:30px;'></th>
@@ -39,8 +40,9 @@
 											<tr>
 
 												<td>{{h.date}}</td>
-												<td>{{h.name}}</td>
+												<td><a href="{{h.name.get_absolute_url}}">{{h.name}}</a></td>
 												<td>{{h.hours}}</td>
+												<td>${{h.get_rate}}/hr</td>
 												<td>{{h.work}}</td>
 												<td><a href="{% url 'toggle-paid' pk=h.pk inv=inv pd=pd %}">{{h.paid}}</a></td>
 												<td><a href="{{ h.get_edit_url }}">Edit</a></td>
@@ -56,9 +58,9 @@
 								<section>
 									<h2>View Summary</h2>
 									<ul class="small-image-list">
-										<li><h5>total hours</h5></li>
+										<li>Total Hours:</li>
 										<li>{{total_hours}}</li>
-										<li>We pay $20 per hour to people who are invested in the rental properties</li>
+										<li>${{value}}</li>
 									</ul>
 								</section>
 								<section>

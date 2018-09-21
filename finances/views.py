@@ -74,10 +74,21 @@ def hourview(request, inv=0, pd=0):
 
     total_hours = hours.aggregate(Sum('hours'))
     total_hours = total_hours['hours__sum']
+    total_value = 0
+    for h in hours:
+        total_value += h.hours*h.get_rate()
+
     return render(
     request,
     'hours.html',
-    context = {"investors":investors, "hours":hours, "inv":inv, "pd":pd, "total_hours":total_hours}
+    context = {
+            "investors":investors,
+            "hours":hours,
+            "inv":inv,
+            "pd":pd,
+            "total_hours":total_hours,
+            "value":total_value,
+            }
     )
 
 class HourCreate(CreateView):
@@ -395,6 +406,7 @@ def investordetail(request, pk):
         request,
         'finances/investor_detail.html',
         context = {
+                    "pk":pk,
                     "menu":menu,
                     "investor":investor,
                     "transaction_set":transactions,
@@ -432,6 +444,11 @@ def investoroverview(request):
                     "hours":hours,
                     }
     )
+
+class InvestorUpdate(UpdateView):
+    model = Investor
+    form_class = HourlyRateForm
+    template_name = 'finances/generic_form.html'
 
 def dividends(request):
     investors = Investor.objects.exclude(percentage=0)

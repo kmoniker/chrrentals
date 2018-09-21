@@ -21,7 +21,7 @@
 											<td>{{ t.date }}</td>
 											<td>{{ t.bank_posted_date }}</td>
 											<td>{{ t.pretty_amount}}</td>
-											<td>{{ t.person }}</td>
+											<td>{% if t.tenant.get_absolute_url %}<a href="{{t.tenant.get_absolute_url}}">{{ t.person }}</a>{% elif t.investor.get_absolute_url %}<a href="{{t.investor.get_absolute_url}}">{{ t.person }}</a>{% else %}{{ t.person }}{% endif %}</td>
 											<td>{{ t.notes }}</td>
 											<td><a href="{{t.get_edit_url}}">Edit</a></td>
 										</tr>
