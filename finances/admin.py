@@ -12,6 +12,9 @@ admin.site.register(Deposit)
 class LeaseInline(admin.TabularInline):
     model = Lease
 
+class DepositInline(admin.TabularInline):
+    model = Deposit
+
 class AssetValueInline(admin.TabularInline):
     model = AssetValue
 
@@ -45,6 +48,6 @@ class TransactionAdmin(admin.ModelAdmin):
 
 @admin.register(Tenant)
 class TenantAdmin(admin.ModelAdmin):
-    inlines = [TransactionInline,]
+    inlines = [DepositInline,]
     ordering=('name',)
-    list_display = ('name', 'get_current_lease', 'active')
+    list_display = ('name', 'get_current_lease', 'active', 'get_deposit_value')

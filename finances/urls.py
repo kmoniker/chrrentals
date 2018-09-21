@@ -4,10 +4,25 @@ from finances import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+]
+
+#lease URLS
+urlpatterns += [
     path('leases', views.leaseview, name='leaseview'),
     path('leases/<str:c>', views.leaseview, name='leaseview'),
+]
+
+#tenant URLS
+urlpatterns += [
     path('tenant', views.tenantoverview, name='tenant-overview'),
     path('tenant/<int:pk>', views.tenantdetail, name='tenant-detail'),
+    path('tenant/notes/<int:pk>', views.TenantNotes.as_view(), name="tenant-notes"),
+    path('tenant/edit/<int:pk>', views.TenantUpdate.as_view(), name='edit-tenant'),
+    path('tenant/create', views.TenantCreate.as_view(), name='create-tenant'),
+    path('tenant/deposit/create', views.DepositCreate.as_view(), name='create-deposit'),
+    path('tenant/deposit/edit/<int:pk>', views.DepositUpdate.as_view(), name='edit-deposit'),
+    path('tenant/initialdeposit/create/<int:pk>', views.initialdeposit, name='initial-deposit'),
+
 ]
 
 #Transaction URLs

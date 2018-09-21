@@ -7,12 +7,12 @@ from django.db.models import Sum
 # Create your models here.
 
 class Transaction(models.Model):
-    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    amount = models.DecimalField(max_digits=8, decimal_places=2, help_text="A positive number.")
     date = models.DateField(null=True)
-    bank_posted_date = models.DateField(null=True, blank=True)
+    bank_posted_date = models.DateField(null=True, blank=True, help_text="The date the transaction hit the bank.")
     person = models.CharField(max_length=200, help_text="The other party in the transaction.", null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    out_flow = models.BooleanField()
+    out_flow = models.BooleanField(help_text="Check this box if it's an expense.")
     investor = models.ForeignKey('Investor', on_delete=models.SET_NULL, null=True, blank=True)
     tenant = models.ForeignKey('Tenant', on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -156,7 +156,7 @@ class Lease(models.Model):
         startyear = self.lease_start.year
         endmonth = self.lease_end.month
         mnthstring = "%s %s" % (calendar.month_abbr[startmonth], startyear)
-        #months.append(mnthstring) This appends the first month, august onto the string
+        months.append(mnthstring) #This appends the first month, august onto the string Accompanies the code for tenant.get_rent_payments
         while startmonth+1 != endmonth:
             if startmonth == 12:
                 startmonth = 1
@@ -224,7 +224,7 @@ class Tenant(models.Model):
         return self.name
 
     def get_edit_url(self):
-         return reverse('update-hour', args=[str(self.id)])
+         return reverse('edit-tenant', args=[str(self.id)])
 
     def get_absolute_url(self):
          return reverse('tenant-detail', args=[str(self.id)])
@@ -248,8 +248,8 @@ class Tenant(models.Model):
 
     def get_rent_payments(self, smonth=1, syear=2018, nmonth=12, nyear=2018):
         payments = []
-        # pmt = self.get_rent_payment(smonth, syear)  THESE LINES of code add the first month (august) on
-        # payments.append(pmt)
+        pmt = self.get_rent_payment(smonth, syear) # THESE LINES of code add the first month (august) on
+        payments.append(pmt)
         while nmonth != smonth or nyear != syear:
             if smonth == 12:
                 smonth = 1
@@ -262,8 +262,31 @@ class Tenant(models.Model):
 
     def get_deposit_value(self):
         deposit_value = self.deposit_set.aggregate(Sum('amount'))
-        return deposit_value['amount__sum']
+
+        if deposit_value['amount__sum'] == None:
+            return None
+        elif deposit_value['amount__sum'] >= 0:
+            return "${:,.2f}".format(deposit_value['amount__sum'])
+        else:
+            return "-${:,.2f}".format(abs(deposit_value['amount__sum']))
 
 class Deposit(models.Model):
     tenant = models.ForeignKey('Tenant', on_delete=models.SET_NULL, null=True)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
+    date = models.DateField(default=datetime.today)
+    notes = models.TextField(null=True, blank=True)
+
+    def pretty_amount(self):
+        if self.amount >= 0:
+            return "$%s" % self.amount
+        else:
+            return "-$%s" % abs(self.amount)
+
+    def get_absolute_url(self):
+         return reverse('tenant-detail', args=[str(self.tenant.id)])
+
+    def get_edit_url(self):
+         return reverse('edit-deposit', args=[str(self.id)])
+
+    def __str__(self):
+        return "$%s (%s)" % (self.amount, self.date)

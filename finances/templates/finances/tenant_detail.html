@@ -15,12 +15,6 @@
 										{% endfor %}
 									</ul>
 								</section>
-
-								<section>
-									<h2>Notes</h2>
-									<p>{{tenant.notes}}</p>
-								</section>
-
 							</div>
 							<div class="col-6 col-12-medium imp-medium">
 
@@ -29,7 +23,7 @@
 									{% if lease_list %}
 									<p>
 										<ul>
-											<li>Current Leases:</li>
+											<li><strong>Current Leases:</strong></li>
 											{% for l in lease_list %}
 											<li>
 												<a href="{{l.get_absolute_url}}">
@@ -42,7 +36,29 @@
 									{% else %}
 									<p>Current Lease: <a href="{{tenant.get_current_lease.get_absolute_url}}">{{tenant.get_current_lease}}</a></p>
 									{% endif %}
-									<p>Deposit Value: {{tenant.get_deposit_value}}</p>
+									<p><strong>{% if request.resolver_match.url_name == "tenant-overview" %}Total {% endif %}Deposit Value: {{tenant.get_deposit_value}}</strong></p>
+								</section>
+								<section>
+									<h4>Deposit Adjustments - <a href="{% url 'create-deposit' %}">Add</a></h4>
+									{% if deposit_set %}
+									<table>
+										<tr>
+											<th><em>Date</em></th>
+											<th><em>Amount</em></th>
+											<th><em>Tenant</em></th>
+											<th><em>For</em></th>
+										</tr>
+										{% for d in deposit_set %}
+										<tr>
+											<td>{{ d.date }}</td>
+											<td>{{ d.pretty_amount}}</td>
+											<td>{{ d.tenant }}</td>
+											<td>{{ d.notes }}</td>
+											<td><a href="{{d.get_edit_url}}">Edit</a></td>
+										</tr>
+										{% endfor %}
+									</table>
+									{% endif %}
 								</section>
 								{% if transaction_set %}
 								<section>
@@ -68,62 +84,32 @@
 									</table>
 								</section>
 								{% endif %}
-								{% if hours %}
-								<section>
-									<h4>Hours - <a href="{% url 'hourview' %}">All</a> - <a href="{% url 'create-hour' %}">Add</a></h4>
-									<table>
-										<tr>
-											<th style='width:120px;'>Date</th>
-											<th style='width:70px;'>Name</th>
-											<th style='width:40px;'>Hours</th>
-											<th>For</th>
-											<th style='width:30px;'>Paid</th>
-											<th style='width:30px;'></th>
-
-										</tr>
-										{% for h in hours %}
-										<tr>
-
-											<td>{{h.date}}</td>
-											<td>{{h.name}}</td>
-											<td>{{h.hours}}</td>
-											<td>{{h.work}}</td>
-											<td>{{h.paid}}</td>
-										</tr>
-										{% endfor %}
-									</table>
-								</section>
-								{% endif %}
 							</div>
 							<div class="col-3 col-12-medium">
 
 								<section>
-									<h2>Who are you guys?</h2>
 									<ul class="small-image-list">
 										<li>
 											<a class="button" href="{% url 'create-transaction' %}">New Transaction</a>
-											<h4>Jane Anderson</h4>
-											<p>Varius nibh. Suspendisse vitae magna eget et amet mollis justo facilisis amet quis.</p>
 										</li>
+										{% if request.resolver_match.url_name == "tenant-detail" %}
 										<li>
-											<a href="#"><img src="images/pic1.jpg" alt="" class="left" /></a>
-											<h4>James Doe</h4>
-											<p>Vitae magna eget odio amet mollis justo facilisis amet quis. Sed sagittis consequat.</p>
+											<a class="button" href="{{tenant.get_edit_url}}">Edit Tenant</a>
 										</li>
+										{% else %}
+										<li>
+											<a class="button" href="{% url 'create-tenant' %}">Create Tenant</a>
+										</li>
+										{% endif %}
 									</ul>
 								</section>
-
+								{% if request.resolver_match.url_name == "tenant-detail" %}
 								<section>
-									<h2>How about some links?</h2>
-									<ul class="link-list">
-										<li><a href="#">Quis accumsan lorem</a></li>
-										<li><a href="#">Sed neque nisi consequat</a></li>
-										<li><a href="#">Eget et amet consequat</a></li>
-										<li><a href="#">Dapibus sed mattis blandit</a></li>
-										<li><a href="#">Vitae magna sed dolore</a></li>
-									</ul>
+									<h2>Notes</h2>
+									<h4><a href="{% url 'tenant-notes' pk=tenant.pk %}">Edit</a></h4>
+									<p>{{tenant.notes}}</p>
 								</section>
-
+								{% endif %}
 							</div>
 						</div>
 					</div>

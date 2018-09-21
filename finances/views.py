@@ -135,6 +135,7 @@ def tenantpayment(request, pk, leasepk, year, month):
                                     'date': "%s-%s-01" % (year, month),
                                     'bank_posted_date': "%s-%s-07" % (year, month),
                                     'amount': amount,
+                                    'person': tenant.name,
                                     'tenant': tenant,
                                     'notes': notes,
                                     })
@@ -145,6 +146,58 @@ def tenantpayment(request, pk, leasepk, year, month):
         context = {'form':form, "tenant":tenant}
         )
 
+def initialdeposit(request, pk):
+    tenant = Tenant.objects.get(pk = pk)
+    lease = tenant.get_current_lease()
+    amount = lease.required_deposit()
+    notes = "Initial Deposit for %s" % (lease)
+
+     # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = InitialDepositForm(request.POST)
+        # Check if the form is valid:
+        if form.is_valid():
+            print(form.cleaned_data)
+            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+            t = Transaction(
+                amount=form.cleaned_data['amount'],
+                date=form.cleaned_data['date'],
+                bank_posted_date=form.cleaned_data['bank_posted_date'],
+                person=tenant.name,
+                notes=form.cleaned_data['notes'],
+                out_flow=False,
+                tenant=form.cleaned_data['tenant'])
+            t.save()
+            d = Deposit(
+                tenant = form.cleaned_data['tenant'],
+                amount = form.cleaned_data['amount'],
+                date = form.cleaned_data['date'],
+                notes = form.cleaned_data['notes'])
+            d.save()
+
+            # redirect to a new URL:
+            return redirect("%s#%s" % (reverse('leaseview'), lease.pk))
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        form = InitialDepositForm(initial={
+                                    'date': datetime.today(),
+                                    'bank_posted_date': None,
+                                    'amount': amount,
+                                    'tenant': tenant,
+                                    'notes': notes,
+                                    })
+
+    return render(
+        request,
+        'finances/generic_form.html',
+        context = {'form':form, "tenant":tenant}
+        )
+
+
+
 class TenantDetail(generic.DetailView):
     model=Tenant
     fields = "__all__"
@@ -153,6 +206,7 @@ def tenantdetail(request, pk):
     tenant = Tenant.objects.get(pk=pk)
     menu = Tenant.objects.all().order_by('-active', 'name')
     transactions = tenant.transaction_set.all().order_by("-date")
+    deposits = tenant.deposit_set.all().order_by('-date')
     return render(
         request,
         'finances/tenant_detail.html',
@@ -160,6 +214,7 @@ def tenantdetail(request, pk):
                     "menu":menu,
                     "tenant":tenant,
                     "transaction_set":transactions,
+                    "deposit_set":deposits,
                     "pk":pk
                     }
     )
@@ -168,13 +223,16 @@ def tenantoverview(request):
     menu = Tenant.objects.all().order_by('-active', 'name')
     transactions = Transaction.objects.exclude(tenant=None).order_by("-date")
     leases = Lease.objects.all()
+    deposits = Deposit.objects.all().order_by('-date')
+    deposit_value = Deposit.objects.aggregate(Sum("amount"))['amount__sum']
     lease_list = []
     for l in leases:
         if l.is_current():
             lease_list.append(l)
 
     tenant = {
-                "name":"Overview",
+                "name":"Tenant Overview",
+                "get_deposit_value":"${:,.2f}".format(deposit_value),
     }
 
     return render(
@@ -185,9 +243,34 @@ def tenantoverview(request):
                     "tenant":tenant,
                     "transaction_set":transactions,
                     "lease_list":lease_list,
+                    "deposit_set":deposits,
                     }
     )
 
+class TenantNotes(UpdateView):
+    model = Tenant
+    fields = ("notes",)
+    template_name = "finances/generic_form.html"
+
+class TenantUpdate(UpdateView):
+    model = Tenant
+    fields = "__all__"
+    template_name = "finances/generic_form.html"
+
+class TenantCreate(CreateView):
+    model = Tenant
+    fields = "__all__"
+    template_name = "finances/generic_form.html"
+
+class DepositUpdate(UpdateView):
+    model = Deposit
+    fields = "__all__"
+    template_name = "finances/generic_form.html"
+
+class DepositCreate(CreateView):
+    model = Deposit
+    fields = "__all__"
+    template_name = "finances/generic_form.html"
 
 class TransactionCreate(CreateView):
     model = Transaction
@@ -195,7 +278,6 @@ class TransactionCreate(CreateView):
     initial={
             'date': datetime.today(),
             }
-
 class TransactionUpdate(UpdateView):
     model = Transaction
     form_class = TransactionForm
@@ -330,7 +412,7 @@ def investoroverview(request):
     hours = Hour.objects.all().order_by('-date')
 
     investor = {
-                "name":"Overview",
+                "name":"Investor Overview",
                 "pretty_percent":"100.00%",
                 "get_equity": equity,
     }

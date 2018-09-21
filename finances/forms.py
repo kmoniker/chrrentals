@@ -1,10 +1,13 @@
 from django import forms
-from .models import Transaction, Hour
+from .models import Transaction, Hour, Tenant
 from datetime import datetime
 
-class NewInvestmentForm(forms.Form):
+class InitialDepositForm(forms.Form):
     amount = forms.DecimalField(max_digits=8, decimal_places=2)
-    date = forms.DateField()
+    date = forms.DateField(widget = forms.SelectDateWidget(years=range(2010, datetime.today().year+2)))
+    bank_posted_date = forms.DateField(required=False, widget=forms.SelectDateWidget(years=range(2010, datetime.today().year+2)))
+    tenant = forms.ModelChoiceField(queryset=Tenant.objects.all())
+    notes = forms.CharField(widget=forms.Textarea)
 
 class TransactionForm(forms.ModelForm):
 

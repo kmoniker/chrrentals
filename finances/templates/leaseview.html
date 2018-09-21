@@ -26,6 +26,7 @@
 
 							</div>
 							<div class="col-10 col-12-medium imp-medium">
+								<h2>Leases</h2>
 								{% for l, value in lease_dict.items %}
 								<section id="{{l.pk}}">
 									<h3>{{l.property}}</h3>
@@ -34,6 +35,7 @@
 											<table>
 												<tr>
 													<th style="width:130px">Tenant</th>
+													<th>Deposit</th>
 													{% for m in l.get_months %}
 									                <th style="width:60px">{{ m }}</th>
 									                {% endfor %}
@@ -42,6 +44,7 @@
 												{% for tenant, pmt in value.items %}
 												<tr>
 													<td><a href={{tenant.get_absolute_url}}>{{tenant}}</a></td>
+													<td>{% if tenant.get_deposit_value == none %}<a href="{% url 'initial-deposit' pk=tenant.pk %}">{{tenant.get_deposit_value}}</a>{% else %}{{tenant.get_deposit_value}}{% endif %}</td>
 													{% for p in pmt %}
 													<td>{% if p.result == "False" %}<a href="{% url 'create-transaction' pk=p.pk leasepk=l.pk month=p.month year=p.year %}">Add</a>{% else %}{{p}}{% endif %}</td>
 													{% endfor %}
