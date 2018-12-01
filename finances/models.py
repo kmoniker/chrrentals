@@ -201,7 +201,7 @@ class Lease(models.Model):
 class Hour(models.Model):
     name = models.ForeignKey('Investor', on_delete=models.SET_NULL, null=True)
     date = models.DateField()
-    hours = models.IntegerField()
+    hours = models.DecimalField(max_digits=8, decimal_places=2)
     work = models.CharField(max_length=400, help_text="what were you doing?")
     paid = models.BooleanField(default=False)
     rate = models.DecimalField(max_digits=8, decimal_places=2, help_text="The hourly rate paid for work.")
