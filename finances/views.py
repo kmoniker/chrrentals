@@ -348,9 +348,14 @@ def transactionview(request):
     into_bank = Transaction.objects.filter(out_flow=False).exclude(bank_posted_date=None).aggregate(Sum('amount'))
     outof_bank = Transaction.objects.filter(out_flow=True).exclude(bank_posted_date=None).aggregate(Sum('amount'))
 
-    in_bank = into_bank['amount__sum']-outof_bank['amount__sum']
-
-    last_bank_update = Transaction.objects.exclude(bank_posted_date=None).order_by('-bank_posted_date').first().bank_posted_date
+    try:
+        in_bank = into_bank['amount__sum']-outof_bank['amount__sum']
+    except TypeError:
+        in_bank = 0
+    try:
+        last_bank_update = Transaction.objects.exclude(bank_posted_date=None).order_by('-bank_posted_date').first().bank_posted_date
+    except:
+        last_bank_update = "error"
 
     try:
         value = Asset.objects.get(name="UCCU Bank Account").get_value()
@@ -529,6 +534,25 @@ def paydividends(request):
             )
 
     return redirect('investor-overview')
+
+
+
+class AssetDetail(generic.DetailView):
+    model=Asset
+    fields = "__all__"
+
+class AssetListView(generic.ListView): #For exporting Transactions
+    model = Asset
+
+class AssetUpdate(UpdateView):
+    model = Asset
+    fields = "__all__"
+    template_name = "finances/generic_form.html"
+
+class AssetCreate(CreateView):
+    model = Asset
+    fields = "__all__"
+    template_name = "finances/generic_form.html"
 
 # template VIEWS
 def twocolumn1(request):

@@ -47,6 +47,7 @@ urlpatterns += [
     path('hours/update/paid/<int:pk>/<int:inv>/<int:pd>', views.toggle_paid, name='toggle-paid'),
 ]
 
+#investor URLS
 urlpatterns += [
     path('investors', views.investoroverview, name="investor-overview"),
     path('investor/<int:pk>', views.investordetail, name='investor-detail'),
@@ -59,4 +60,12 @@ urlpatterns += [
     path('twocolumn2.html', views.twocolumn2, name='2col2'),
     path('onecolumn.html', views.onecolumn, name='1col'),
     path('threecolumn.html', views.threecolumn, name='3col'),
+]
+
+#Asset URLs
+urlpatterns += [
+    path('assets', views.AssetListView.as_view(), name="asset-list"),
+    path('assets/<int:pk>', views.AssetDetail.as_view(), name='asset-detail'),
+    path('assets/create/', views.AssetCreate.as_view(), name='create-asset'),
+    path('assets/update/<int:pk>', views.AssetUpdate.as_view(), name='update-asset'),
 ]
