@@ -11,7 +11,7 @@
 									<h2>Filters</h2>
 									<ul class="link-list">
 										<li><a href="{% url 'hourview' %}">Clear Filters</a></li>
-										<li>Paymet Status</li>
+										<li>Payment Status</li>
 										<li><a class="{% if pd == 1 %}bold{% endif %}" href="{% url 'hourview' inv=inv pd=1 %}">Paid</a></li>
 										<li><a class="{% if pd == 2 %}bold{% endif %}" href="{% url 'hourview' inv=inv pd=2 %}">Unpaid</a></li>
 										<li>Investors</li>

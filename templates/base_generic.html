@@ -27,9 +27,9 @@
 									{% if user.is_authenticated %}
 									<nav id="nav">
 										<a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == "index" %}current-page-item{% endif %}">Home</a>
-										<a href="{% url 'investor-overview' %}" class="{% if request.resolver_match.url_name == "investor-detail" %}current-page-item{% endif %}">Investors</a>
+										<a href="{% url 'investor-overview' %}" class="{% if request.resolver_match.url_name == "investor-overview" or request.resolver_match.url_name == "investor-detail" %}current-page-item{% endif %}">Investors</a>
 										<a href="{% url 'leaseview' %}" class="{% if request.resolver_match.url_name == "leaseview" %}current-page-item{% endif %}">Leases</a>
-										<a href="{% url 'tenant-overview' %}" class="{% if request.resolver_match.url_name == "tenant-overview" %}current-page-item{% endif %}">Tenants</a>
+										<a href="{% url 'tenant-overview' %}" class="{% if request.resolver_match.url_name == "tenant-overview" or request.resolver_match.url_name == "tenant-detail" %}current-page-item{% endif %}">Tenants</a>
 										<a href="{% url 'transactions' %}" class="{% if request.resolver_match.url_name == "transactions" %}current-page-item{% endif %}">Transactions</a>
 									</nav>
 									{% endif %}
