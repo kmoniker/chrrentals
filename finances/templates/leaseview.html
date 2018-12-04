@@ -29,7 +29,7 @@
 								<h2>Leases</h2>
 								{% for l, value in lease_dict.items %}
 								<section id="{{l.pk}}">
-									<h3>{{l.property}}</h3>
+									<h3><a href="{{l.property.get_absolute_url}}">{{l.property}}</a></h3>
 									<h4>{{l.lease_start}} - {{l.lease_end}}</h4>
 									<h5>Deposit: ${{l.required_deposit}} -- Monthly Payment: ${{l.monthly_payment}}</h5 >
 											<table>

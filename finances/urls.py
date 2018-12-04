@@ -64,8 +64,9 @@ urlpatterns += [
 
 #Asset URLs
 urlpatterns += [
-    path('assets', views.AssetListView.as_view(), name="asset-list"),
-    path('assets/<int:pk>', views.AssetDetail.as_view(), name='asset-detail'),
+    path('assets', views.assetoverview, name='asset-overview'),
+    path('assets/<int:pk>', views.assetdetail, name='asset-detail'),
     path('assets/create/', views.AssetCreate.as_view(), name='create-asset'),
+    path('assets/valueupdate/', views.AssetValueCreate.as_view(), name='asset-value-update'),
     path('assets/update/<int:pk>', views.AssetUpdate.as_view(), name='update-asset'),
 ]

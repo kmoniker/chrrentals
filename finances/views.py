@@ -352,15 +352,20 @@ def transactionview(request):
         in_bank = into_bank['amount__sum']-outof_bank['amount__sum']
     except TypeError:
         in_bank = 0
+        print("inbank TYPE ERROR")
+
     try:
         last_bank_update = Transaction.objects.exclude(bank_posted_date=None).order_by('-bank_posted_date').first().bank_posted_date
     except:
         last_bank_update = "error"
+        print("lastbankupdate ERROR")
 
     try:
         value = Asset.objects.get(name="UCCU Bank Account").get_value()
     except:
         value = "error"
+        print("value ERROR")
+
 
     if value == in_bank:
         in_bank_color = "green"
@@ -535,14 +540,47 @@ def paydividends(request):
 
     return redirect('investor-overview')
 
+def assetoverview(request):
+    assets = Asset.objects.all()
+    total=0
+    for a in assets:
+        val = a.get_value()
+        total += a.get_value()
+    get_value = "${:,.2f}".format(total)
 
+    value_set = AssetValue.objects.exclude(asset=None).order_by("-date")
 
-class AssetDetail(generic.DetailView):
-    model=Asset
-    fields = "__all__"
+    asset = {
+                "name":"Asset Overview",
+    }
+    print(assets)
+    return render(
+        request,
+        'finances/asset_detail.html',
+        context = {
+                    "menu":assets,
+                    "asset":asset,
+                    "asset_set":assets,
+                    "get_value":get_value,
+                  }
+    )
 
-class AssetListView(generic.ListView): #For exporting Transactions
-    model = Asset
+def assetdetail(request, pk):
+    asset = Asset.objects.get(pk=pk)
+    menu = Asset.objects.all()
+    value_set = AssetValue.objects.filter(asset=pk).order_by("-date")
+    return render(
+        request,
+        'finances/asset_detail.html',
+        context = {
+                    "pk":pk,
+                    "menu":menu,
+                    "asset":asset,
+                    "get_value":asset.get_value(True),
+                    "value_set":value_set,
+                    }
+    )
+
 
 class AssetUpdate(UpdateView):
     model = Asset
@@ -551,6 +589,11 @@ class AssetUpdate(UpdateView):
 
 class AssetCreate(CreateView):
     model = Asset
+    fields = "__all__"
+    template_name = "finances/generic_form.html"
+
+class AssetValueCreate(CreateView):
+    model = AssetValue
     fields = "__all__"
     template_name = "finances/generic_form.html"
 

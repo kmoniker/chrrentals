@@ -8,9 +8,9 @@
 							<div class="col-3 col-12-medium">
 
 								<section>
-									<h2>Investors</h2>
+									<h2>Assets</h2>
 									<ul class="link-list">
-										<li><a class ="{% if request.resolver_match.url_name == "investor-overview" %}bold{% endif %}" href="{% url 'investor-overview' %}">Overview</a></li>
+										<li><a class ="{% if request.resolver_match.url_name == "asset-overview" %}bold{% endif %}" href="{% url 'asset-overview' %}">Overview</a></li>
 										{% for i in menu %}
 										<li><a class="{% if pk == i.pk %}bold{% endif %}" href="{{i.get_absolute_url}}">{{i.name}}</a></li>
 										{% endfor %}
@@ -29,54 +29,42 @@
 							<div class="col-6 col-12-medium imp-medium">
 
 								<section class="middle-content">
-									<h2>{{investor.name}}</h2>
-									<h3>Percentage: {{investor.pretty_percent}} -- Equity: {{investor.get_equity}}</h3>
+									<h2>{{asset.name}}</h2>
+									<h3>Value: {{get_value}}</h3>
 								</section>
-								{% if transaction_set %}
+								{% if value_set %}
 								<section>
-									<h4>Transactions - <a href="{% url 'transactions' %}">All</a> - <a href="{% url 'create-transaction' %}">Add</a></h4>
+									<h4>Value History - <a href="{% url 'asset-overview' %}">All</a> - <a href="{% url 'asset-value-update' %}">Add</a></h4>
 									<table>
 										<tr>
+											<th><em>Asset</em></th>
+											<th><em>New Value</em></th>
 											<th><em>Date</em></th>
-											<th><em>Bank Date</em></th>
-											<th><em>Amount</em></th>
-											<th><em>Person</em></th>
-											<th><em>For</em></th>
 										</tr>
-										{% for t in transaction_set %}
+										{% for a in value_set %}
 										<tr>
-											<td>{{ t.date }}</td>
-											<td>{{ t.bank_posted_date }}</td>
-											<td>{{ t.pretty_amount}}</td>
-											<td>{{ t.person }}</td>
-											<td>{{ t.notes }}</td>
-											<td><a href="{{t.get_edit_url}}">Edit</a></td>
+											<td>{{ a.asset }}</td>
+											<td style="text-align:right">{{ a.pretty_value}}</td>
+											<td>{{ a.date }}</td>
 										</tr>
 										{% endfor %}
 									</table>
 								</section>
 								{% endif %}
-								{% if hours %}
+								{% if asset_set %}
 								<section>
-									<h4>Hours - <a href="{% url 'hourview' %}">All</a>{% if request.resolver_match.url_name == "investor-detail" %} - <a href="{% url 'create-hour' investor.pk %}">Add</a> - Rate: ${{investor.rate}}/hr - <a href="{% url 'edit-hourly-rate' investor.pk %}">Edit Rate</a>{% endif %}</h4>
+									<h4>Asset Values - <a href="{% url 'asset-overview' %}">All</a> - <a href="{% url 'create-asset' %}">Add</a></h4>
 									<table>
 										<tr>
-											<th style='width:120px;'>Date</th>
-											<th style='width:70px;'>Name</th>
-											<th style='width:40px;'>Hours</th>
-											<th>Rate</th>
-											<th>For</th>
-											<th style='width:30px;'>Paid</th>
-											<th style='width:30px;'></th>
+											<th><em>Asset</em></th>
+											<th><em>Value</em></th>
+											<th><em>Last Updated</em></th>
 										</tr>
-										{% for h in hours %}
+										{% for a in asset_set %}
 										<tr>
-											<td>{{h.date}}</td>
-											<td>{{h.name}}</td>
-											<td>{{h.hours}}</td>
-											<td>${{h.rate}}/hr</td>
-											<td>{{h.work}}</td>
-											<td>{{h.paid}}</td>
+											<td>{{ a.name }}</td>
+											<td style="text-align:right">{{ a.pretty_value }}</td>
+											<td>{{ a.get_last_update }}</td>
 										</tr>
 										{% endfor %}
 									</table>
@@ -87,9 +75,8 @@
 
 								<section>
 									<ul class="small-image-list">
-										<li><a class="button" href="{% url 'dividends' %}">Pay Dividends</a></li>
-										<li><a class="button" href="{% url 'create-transaction' %}">New Transaction</a></li>
-										<li><a class="button" href="{% url 'hourview' %}">Manage Hours</a></li>
+										<li><a class="button" href="{% url 'create-asset' %}">New Asset</a></li>
+										<li><a class="button" href="{% url 'asset-value-update' %}">Update Asset Value</a></li>
 									</ul>
 								</section>
 

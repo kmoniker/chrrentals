@@ -116,6 +116,25 @@ class Asset(models.Model):
             value = "${:,.2f}".format(value)
         return value
 
+    def pretty_value(self):
+        return self.get_value(True)
+
+    def get_last_update(self, str=False):
+        now = datetime.now().astimezone()
+        lst = self.assetvalue_set.all()
+        dates=[]
+        for v in lst:
+            dates.append(v.date)
+        if len(dates) == 0:
+            last_update = 0
+        else:
+            youngest = max(dt for dt in dates if dt < now)
+            assetvalue = self.assetvalue_set.filter(date=youngest)[0]
+            last_update = assetvalue.date
+        if str == True:
+            last_update = "${:,.2f}".format(value)
+        return last_update
+
     def get_absolute_url(self):
          return reverse('asset-detail', args=[str(self.id)])
 
@@ -127,8 +146,14 @@ class Asset(models.Model):
 
 class AssetValue(models.Model):
     asset = models.ForeignKey('asset', on_delete=models.SET_NULL, null=True, blank=True)
-    value = models.DecimalField(max_digits=10, decimal_places=2)
+    value = models.DecimalField(max_digits=20, decimal_places=2)
     date = models.DateTimeField(auto_now=True)
+
+    def pretty_value(self):
+        return "${:,.2f}".format(self.value)
+
+    def get_absolute_url(self):
+        return reverse('asset-detail', args=[str(self.asset.id)])
 
     def __str__(self):
         return "$%s (%s)" % (self.value, self.date.strftime("%m/%d/%Y"))
