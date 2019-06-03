@@ -9,8 +9,8 @@
 
 								<section>
 									<h2>Dividends to be paid out</h2>
-									<h3>Last Dividend: {{last_dividend.date}}</h3>
-									<h4>{{last_dividend.notes}}</h4>
+									<h3>Last Dividend: {{last_dividend.notes}}
+									<h4>Paid on: {{last_dividend.date}}</h4>
 								</section>
 
 								<section>
@@ -24,13 +24,15 @@
 										<tr>
 											<td>{{ i.name }}</td>
 											<td>{{ i.pretty_percent }}</td>
-											<td>${{ i.get_dividend|stringformat:".2f" }}</td>
+											<td>{{ i.get_pretty_dividend }}</td>
+											<td></td>
 										</tr>
 										{% endfor %}
 										<tr>
 											<td>Total</td>
 											<td>{{total.percent}}</td>
 											<td>{{total.total_out}}</td>
+											<td><a href="{% url 'edit-payout' %}">Edit Total Payout Amount</a></td>
 										</tr>
 									</table>
 								</section>

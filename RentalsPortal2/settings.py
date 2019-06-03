@@ -50,15 +50,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'RentalsPortal2.loginrequired.LoginRequiredMiddleware',
-
-
 ]
-
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
-LOGIN_EXEMPT_URLS = (
-)
+LOGIN_EXEMPT_URLS = ()
 
 ROOT_URLCONF = 'RentalsPortal2.urls'
 

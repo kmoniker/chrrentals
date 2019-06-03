@@ -32,6 +32,7 @@ urlpatterns += [
     path('transactions/edit/<int:pk>', views.TransactionUpdate.as_view(), name='edit-transaction'),
     path('transactions/create', views.TransactionCreate.as_view(), name='create-transaction'),
     path('transactions/create/tenantrent/<int:pk>/lease/<int:leasepk>/month/<int:month>/year/<int:year>', views.tenantpayment, name='create-transaction'),
+    path('transactions/dividends/edit-payout', views.DividendCreate.as_view(), name='edit-payout'),
     path('transactions/dividends', views.dividends, name='dividends'),
     path('transactions/dividends/pay', views.paydividends, name="pay-dividends"),
     path('import', views.import_transaction_view, name='import'),

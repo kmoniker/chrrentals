@@ -88,7 +88,11 @@ class Investor(models.Model):
         return "${:,.2f}".format(t)
 
     def get_dividend(self):
-        return self.percentage*1000
+        total_dividend = Dividend.objects.order_by('-date')[0]
+        return self.percentage*float(total_dividend.value)
+
+    def get_pretty_dividend(self):
+        return "${:,.2f}".format(self.get_dividend())
 
     def get_absolute_url(self):
          return reverse('investor-detail', args=[str(self.id)])
@@ -157,6 +161,26 @@ class AssetValue(models.Model):
 
     def __str__(self):
         return "$%s (%s)" % (self.value, self.date.strftime("%m/%d/%Y"))
+
+class Dividend(models.Model):
+    value = models.DecimalField(max_digits=20, decimal_places=2)
+    date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Monthly Dividend Payout'
+        verbose_name_plural = 'Monthly Dividend Payout'
+
+    def pretty_value(self):
+        return "${:,.2f}".format(self.value)
+
+    def __str__(self):
+        return "$%s (%s)" % (self.value, self.date.strftime("%m/%d/%Y"))
+
+    def get_edit_url(self):
+         return reverse('edit-dividend', args=[str(self.id)])
+
+    def get_absolute_url(self):
+        return reverse('dividends')
 
 class Lease(models.Model):
     property = models.ForeignKey('Asset',  on_delete=models.SET_NULL, null=True)

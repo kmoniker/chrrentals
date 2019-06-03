@@ -1,41 +1,66 @@
-{% extends "base_generic_page.html" %}
+{% extends "base_generic.html" %}
 
-{% block page %}
+{% block content %}
+<!-- Main -->
+	<div id="main">
+		<div class="container">
+			<div class="row main-row">
+				<div class="col-12">
+					<style>
+					table {
+						width:100%;
+					}
+					tr:nth-child(even) {
+						background-color: #f2f2f2;
+					}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+					td, th {
+						padding:10px;
+						text-align:left;
+					}
+					</style>
+					<section>
+            {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+            {% endif %}
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
+            {% if next %}
+                {% if user.is_authenticated %}
+                <p>Your account doesn't have access to this page. To proceed,
+                please login with an account that has access.</p>
+                {% else %}
+                <p>Please login to see this page.</p>
+                {% endif %}
+            {% endif %}
 
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
 
-    <table>
-        <tr>
-            <td>{{ form.username.label_tag }}</td>
-            <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
-        </tr>
-    </table>
+                <table>
+                    <tr>
+                        <td>{{ form.username.label_tag }}</td>
+                        <td>{{ form.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.password.label_tag }}</td>
+                        <td>{{ form.password }}</td>
+                    </tr>
+                </table>
 
-    <div>
-        <button type="submit" class="button">Login</button>
-      <input type="hidden" name="next" value="{{ next }}" />
-    </div>
-</form>
+                <div>
+                    <button type="submit" class="button">Login</button>
+                  <input type="hidden" name="next" value="{{ next }}" />
+                </div>
+            </form>
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+            {# Assumes you setup the password_reset view in your URLconf #}
+            <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
+					</section>
+
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock %}

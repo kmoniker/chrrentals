@@ -8,6 +8,7 @@ admin.site.register(Hour)
 admin.site.register(Deposit)
 # admin.site.register(Lease)
 # admin.site.register(Tenant)
+admin.site.register(Dividend)
 
 class LeaseInline(admin.TabularInline):
     model = Lease

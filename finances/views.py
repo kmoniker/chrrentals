@@ -322,16 +322,21 @@ class DepositCreate(CreateView):
     fields = "__all__"
     template_name = "finances/generic_form.html"
 
+class DividendCreate(CreateView):
+    model = Dividend
+    fields = "__all__"
+    template_name = "finances/generic_form.html"
+
 class TransactionCreate(CreateView):
     model = Transaction
     form_class = TransactionForm
     initial={
             'date': datetime.today(),
             }
+
 class TransactionUpdate(UpdateView):
     model = Transaction
     form_class = TransactionForm
-
 
 class TransactionListView(generic.ListView): #For exporting Transactions
     model = Transaction
@@ -496,7 +501,6 @@ class InvestorUpdate(UpdateView):
 
 def dividends(request):
     investors = Investor.objects.exclude(percentage=0)
-
     t_percent = Investor.objects.aggregate(Sum('percentage'))
     t_out = 0
     for i in investors:
