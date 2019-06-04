@@ -472,7 +472,7 @@ def investoroverview(request):
         val = a.get_value()
         total += a.get_value()
     equity = "${:,.2f}".format(total)
-
+    print(equity)
     transactions = Transaction.objects.exclude(investor=None).order_by("-date")
 
     hours = Hour.objects.all().order_by('-date')
@@ -480,7 +480,7 @@ def investoroverview(request):
     investor = {
                 "name":"Investor Overview",
                 "pretty_percent":"100.00%",
-                "get_equity": equity,
+                "get_pretty_equity": equity,
     }
 
     return render(

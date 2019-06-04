@@ -85,6 +85,16 @@ class Investor(models.Model):
             val = a.get_value()
             total += a.get_value()
         t = self.percentage*float(total)
+        return t
+
+    def get_pretty_equity(self):
+        assets = Asset.objects.all()
+        total=0
+
+        for a in assets:
+            val = a.get_value()
+            total += a.get_value()
+        t = self.percentage*float(total)
         return "${:,.2f}".format(t)
 
     def get_dividend(self):
@@ -93,6 +103,13 @@ class Investor(models.Model):
 
     def get_pretty_dividend(self):
         return "${:,.2f}".format(self.get_dividend())
+
+    def get_pretty_annualized_return(self):
+        dividend = self.get_dividend()
+        equity = self.get_equity()
+        annualized_return = (dividend*12)/equity
+        print(annualized_return)
+        return "{:2.2f}%".format(annualized_return*100)
 
     def get_absolute_url(self):
          return reverse('investor-detail', args=[str(self.id)])

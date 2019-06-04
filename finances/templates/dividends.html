@@ -19,13 +19,14 @@
 											<th><em>Investor</em></th>
 											<th><em>Percent</em></th>
 											<th><em>Dividend</em></th>
+											<th><em>Annualized Dividend Return</em></th>
 										</tr>
 										{% for i in investors %}
 										<tr>
 											<td>{{ i.name }}</td>
 											<td>{{ i.pretty_percent }}</td>
 											<td>{{ i.get_pretty_dividend }}</td>
-											<td></td>
+											<td>{{ i.get_pretty_annualized_return }}</td>
 										</tr>
 										{% endfor %}
 										<tr>
