@@ -24,8 +24,7 @@ SECRET_KEY = '$%yi+(wp$kezjp5))u-4+a(=j$mzzda5o37nngbg(q^7&ih(xt'
 import os
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '$%yi+(wp$kezjp5))u-4+a(=j$mzzda5o37nngbg(q^7&ih(xt')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = ['christensen-rentals.herokuapp.com', '127.0.0.1']
 
