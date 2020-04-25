@@ -584,7 +584,7 @@ def assetdetail(request, pk):
     menu = Asset.objects.all()
     value_set = AssetValue.objects.filter(asset=pk).order_by("-date")
     if asset.property==True:
-        transaction_set = Transaction.objects.filter(asset=pk).order_by("-date")
+        transaction_set = Transaction.objects.filter(property=pk).order_by("-date")
     else: transaction_set=False
 
     return render(
