@@ -1,0 +1,83 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+			<!-- Main -->
+				<div id="main">
+					<div class="container">
+						<div class="row main-row">
+							<div class="col-3 col-12-medium">
+
+								<section>
+									<h2>Assets</h2>
+									<ul class="link-list">
+										<li><a class ="{% if request.resolver_match.url_name == "asset-overview" %}bold{% endif %}" href="{% url 'asset-overview' %}">Overview</a></li>
+										{% for i in menu %}
+										<li><a class="{% if pk == i.pk %}bold{% endif %}" href="{{i.get_absolute_url}}">{{i.name}}</a></li>
+										{% endfor %}
+									</ul>
+								</section>
+
+							</div>
+							<div class="col-6 col-12-medium imp-medium">
+
+								<section class="middle-content">
+									<h2>{{asset.name}}</h2>
+									<h3>Value: {{get_value}}</h3>
+									{% if non_property_set %}
+									<section>
+										<h4>Accounts - <a href="{% url 'create-asset' %}">Add</a></h4>
+										<table>
+											<tr>
+												<th><em>Account</em></th>
+												<th><em>Value</em></th>
+												<th><em>Value Last Updated</em></th>
+											</tr>
+											{% for a in non_property_set %}
+											<tr>
+												<td>{{ a.name }}</td>
+												<td style="text-align:right">{{ a.pretty_value }}</td>
+												<td>{{ a.get_last_update }}</td>
+											</tr>
+											{% endfor %}
+										</table>
+									</section>
+									{% endif %}
+								</section>
+
+								{% if property_set %}
+								<section>
+									<h4>Properties - <a href="{% url 'create-asset' %}">Add</a></h4>
+									<table>
+										<tr>
+											<th><em>Property</em></th>
+											<th><em>Value</em></th>
+											<th><em>Value Last Updated</em></th>
+											<th><em>Property Net</em></th>
+										</tr>
+										{% for a in property_set %}
+										<tr>
+											<td>{{ a.name }}</td>
+											<td style="text-align:right">{{ a.pretty_value }}</td>
+											<td>{{ a.get_last_update }}</td>
+											<td style="text-align:right">${{ a.get_net }}</td>
+										</tr>
+										{% endfor %}
+									</table>
+								</section>
+								{% endif %}
+
+							</div>
+							<div class="col-3 col-12-medium">
+
+								<section>
+									<ul class="small-image-list">
+										<li><a class="button" href="{% url 'create-asset' %}">New Asset</a></li>
+										<li><a class="button" href="{% url 'asset-value-update' %}">Update Asset Value</a></li>
+									</ul>
+								</section>
+
+							</div>
+						</div>
+					</div>
+				</div>
+{% endblock %}

@@ -145,6 +145,7 @@ def toggle_paid(request, pk, inv, pd):
 
 def tenantpayment(request, pk, leasepk, year, month):
     tenant = Tenant.objects.get(pk = pk)
+    property = tenant.lease.get(pk=leasepk).property
     amount = tenant.lease.get(pk=leasepk).monthly_payment()
     notes = "%s %s Rent" % (calendar.month_name[month], year)
 
@@ -158,8 +159,12 @@ def tenantpayment(request, pk, leasepk, year, month):
             # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
             date = form.cleaned_data['date']
             bank_posted_date = form.cleaned_data['bank_posted_date']
-            person = tenant.name
-            out_flow = False
+            amount = form.cleaned_data["amount"]
+            out_flow = form.cleaned_data["out_flow"]
+            person = form.cleaned_data["person"]
+            investor = form.cleaned_data["investor"]
+            tenant = form.cleaned_data["tenant"]
+            notes = form.cleaned_data["notes"]
             t = Transaction(
                 amount=amount,
                 date=date,
@@ -167,7 +172,8 @@ def tenantpayment(request, pk, leasepk, year, month):
                 person=person,
                 notes=notes,
                 out_flow=out_flow,
-                tenant=tenant)
+                tenant=tenant,
+                property=form.cleaned_data['property'])
             t.save()
 
 
@@ -182,6 +188,7 @@ def tenantpayment(request, pk, leasepk, year, month):
                                     'amount': amount,
                                     'person': tenant.name,
                                     'tenant': tenant,
+                                    'property': property,
                                     'notes': notes,
                                     })
 
@@ -546,25 +553,28 @@ def paydividends(request):
 
 def assetoverview(request):
     assets = Asset.objects.all()
+
     total=0
     for a in assets:
         val = a.get_value()
         total += a.get_value()
     get_value = "${:,.2f}".format(total)
 
-    value_set = AssetValue.objects.exclude(asset=None).order_by("-date")
+    property_set = Asset.objects.filter(property=True)
+    non_property_set = Asset.objects.filter(property=False)
 
     asset = {
                 "name":"Asset Overview",
     }
-    print(assets)
+
     return render(
         request,
-        'finances/asset_detail.html',
+        'finances/asset_overview.html',
         context = {
                     "menu":assets,
                     "asset":asset,
-                    "asset_set":assets,
+                    "property_set":property_set,
+                    "non_property_set":non_property_set,
                     "get_value":get_value,
                   }
     )
@@ -573,6 +583,10 @@ def assetdetail(request, pk):
     asset = Asset.objects.get(pk=pk)
     menu = Asset.objects.all()
     value_set = AssetValue.objects.filter(asset=pk).order_by("-date")
+    if asset.property==True:
+        transaction_set = Transaction.objects.filter(asset=pk).order_by("-date")
+    else: transaction_set=False
+
     return render(
         request,
         'finances/asset_detail.html',
@@ -581,7 +595,11 @@ def assetdetail(request, pk):
                     "menu":menu,
                     "asset":asset,
                     "get_value":asset.get_value(True),
+                    "get_expenses":asset.get_transaction("expense"),
+                    "get_inflow":asset.get_transaction("inflow"),
+                    "get_net":asset.get_net(),
                     "value_set":value_set,
+                    "transaction_set":transaction_set,
                     }
     )
 

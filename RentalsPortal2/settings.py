@@ -24,7 +24,7 @@ SECRET_KEY = '$%yi+(wp$kezjp5))u-4+a(=j$mzzda5o37nngbg(q^7&ih(xt'
 import os
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '$%yi+(wp$kezjp5))u-4+a(=j$mzzda5o37nngbg(q^7&ih(xt')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['christensen-rentals.herokuapp.com', '127.0.0.1']
@@ -110,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -123,7 +122,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
