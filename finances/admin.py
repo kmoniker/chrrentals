@@ -44,7 +44,7 @@ class LeaseAdmin(admin.ModelAdmin):
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ('date', 'bank_posted_date', 'pretty_amount','person', 'notes')
     list_filter = ('date', 'bank_posted_date', 'person', 'tenant', 'investor', 'property')
-    fields = (('date','bank_posted_date'),('amount', 'out_flow'), ('person','investor', 'tenant','asset'), 'notes',)
+    fields = (('date','bank_posted_date'),('amount', 'out_flow'), ('person','investor', 'tenant','property'), 'notes',)
     ordering= ('-date',)
 
 @admin.register(Tenant)

@@ -15,10 +15,12 @@ from .forms import *
 # Create your views here.
 
 def index(request):
+
     return render(
         request,
         'index.html',
-        context = {}
+        context = {
+        }
     )
 
 def leaseview(request, c='current'):
