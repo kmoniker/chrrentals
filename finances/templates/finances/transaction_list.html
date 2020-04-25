@@ -25,6 +25,7 @@
 											<th><em>Bank Date</em></th>
 											<th><em>Amount</em></th>
 											<th><em>Person</em></th>
+											<th><em>Property</em></th>
 											<th><em>For</em></th>
 										</tr>
 										{% for t in transaction_list %}
@@ -33,6 +34,7 @@
 											<td>{{ t.bank_posted_date }}</td>
 											<td>{{ t.pretty_amount}}</td>
 											<td>{% if t.tenant.get_absolute_url %}<a href="{{t.tenant.get_absolute_url}}">{{ t.person }}</a>{% elif t.investor.get_absolute_url %}<a href="{{t.investor.get_absolute_url}}">{{ t.person }}</a>{% else %}{{ t.person }}{% endif %}</td>
+											<td>{% if t.property %}<a href="{{t.property.get_absolute_url}}">{{ t.property }}</a>{% endif %}</td>
 											<td>{{ t.notes }}</td>
 											<td><a href="{{t.get_edit_url}}">Edit</a></td>
 										</tr>

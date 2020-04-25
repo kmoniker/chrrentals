@@ -31,6 +31,7 @@
 										<a href="{% url 'leaseview' %}" class="{% if request.resolver_match.url_name == "leaseview" %}current-page-item{% endif %}">Leases</a>
 										<a href="{% url 'tenant-overview' %}" class="{% if request.resolver_match.url_name == "tenant-overview" or request.resolver_match.url_name == "tenant-detail" %}current-page-item{% endif %}">Tenants</a>
 										<a href="{% url 'transactions' %}" class="{% if request.resolver_match.url_name == "transactions" %}current-page-item{% endif %}">Transactions</a>
+										<a href="{% url 'asset-overview' %}" class="{% if request.resolver_match.url_name == "asset-overview" %}current-page-item{% endif %}">Assets</a>
 									</nav>
 									{% endif %}
 								</header>

@@ -15,6 +15,7 @@ class Transaction(models.Model):
     out_flow = models.BooleanField(help_text="Check this box if it's an expense.")
     investor = models.ForeignKey('Investor', on_delete=models.SET_NULL, null=True, blank=True)
     tenant = models.ForeignKey('Tenant', on_delete=models.SET_NULL, null=True, blank=True)
+    property = models.ForeignKey('Asset', on_delete=models.SET_NULL, null=True, blank=True)
 
     def pretty_amount(self):
         if self.out_flow == False:
@@ -152,9 +153,24 @@ class Asset(models.Model):
             youngest = max(dt for dt in dates if dt < now)
             assetvalue = self.assetvalue_set.filter(date=youngest)[0]
             last_update = assetvalue.date
-        if str == True:
-            last_update = "${:,.2f}".format(value)
-        return last_update
+        return last_update.strftime("%b %d, %Y")
+
+    def get_transaction(self,type):
+        if type=="expense":
+            transaction_set = Transaction.objects.filter(property=self.id).filter(out_flow=True).order_by("-date")
+        elif type=="inflow":
+            transaction_set = Transaction.objects.filter(property=self.id).filter(out_flow=False).order_by("-date")
+        else:
+            print("get_transaction error")
+
+        total = 0
+        for t in transaction_set:
+            total += t.amount
+
+        return(total)
+
+    def get_net(self):
+        return(self.get_transaction("inflow")-self.get_transaction("expense"))
 
     def get_absolute_url(self):
          return reverse('asset-detail', args=[str(self.id)])

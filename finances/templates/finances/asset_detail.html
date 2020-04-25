@@ -6,6 +6,12 @@
 					<div class="container">
 						<div class="row main-row">
 							<div class="col-3 col-12-medium">
+								<section>
+									<ul class="small-image-list">
+										<li><a class="button" href="{% url 'create-asset' %}">New Asset</a></li>
+										<li><a class="button" href="{% url 'asset-value-update' %}">Update Asset Value</a></li>
+									</ul>
+								</section>
 
 								<section>
 									<h2>Assets</h2>
@@ -17,20 +23,13 @@
 									</ul>
 								</section>
 
-								<section>
-									<h2>Something profound</h2>
-									<p>Duis neque sed nisi, dapibus sed mattis rutrum accumsan sed.
-									Suspendisse eu varius amet nibh. Suspendisse vitae magna eget odio amet
-									mollis justo facilisis quis. Sed sagittis mauris amet tellus gravida
-									lorem ipsum dolor consequat blandit tempus ipsum dolor lorem sit amet.</p>
-								</section>
-
 							</div>
 							<div class="col-6 col-12-medium imp-medium">
 
 								<section class="middle-content">
 									<h2>{{asset.name}}</h2>
 									<h3>Value: {{get_value}}</h3>
+
 								</section>
 								{% if value_set %}
 								<section>
@@ -51,20 +50,22 @@
 									</table>
 								</section>
 								{% endif %}
-								{% if asset_set %}
+								{% if transaction_set %}
 								<section>
-									<h4>Asset Values - <a href="{% url 'asset-overview' %}">All</a> - <a href="{% url 'create-asset' %}">Add</a></h4>
+									<h4>Transaction History - <a href="{% url 'transactions' %}">All</a> - <a href="{% url 'create-transaction' %}">Add</a></h4>
 									<table>
 										<tr>
-											<th><em>Asset</em></th>
-											<th><em>Value</em></th>
-											<th><em>Last Updated</em></th>
+											<th><em>Person</em></th>
+											<th><em>Amount</em></th>
+											<th><em>Date</em></th>
+											<th><em>Notes</em></th>
 										</tr>
-										{% for a in asset_set %}
+										{% for t in transaction_set %}
 										<tr>
-											<td>{{ a.name }}</td>
-											<td style="text-align:right">{{ a.pretty_value }}</td>
-											<td>{{ a.get_last_update }}</td>
+											<td>{{ t.person }}</td>
+											<td style="text-align:left">{{ t.pretty_amount }}</td>
+											<td style="text-align:left">{{ t.pretty_date }}</td>
+											<td style="text-align:left">{{ t.notes }}</td>
 										</tr>
 										{% endfor %}
 									</table>
@@ -74,21 +75,15 @@
 							<div class="col-3 col-12-medium">
 
 								<section>
-									<ul class="small-image-list">
-										<li><a class="button" href="{% url 'create-asset' %}">New Asset</a></li>
-										<li><a class="button" href="{% url 'asset-value-update' %}">Update Asset Value</a></li>
-									</ul>
-								</section>
-
-								<section>
-									<h2>How about some links?</h2>
-									<ul class="link-list">
-										<li><a href="#">Quis accumsan lorem</a></li>
-										<li><a href="#">Sed neque nisi consequat</a></li>
-										<li><a href="#">Eget et amet consequat</a></li>
-										<li><a href="#">Dapibus sed mattis blandit</a></li>
-										<li><a href="#">Vitae magna sed dolore</a></li>
-									</ul>
+									<h2>All Time Asset Profitability</h2>
+									<table>
+										<tr><td><h3>Income: </h3></td>
+												<td><h3>${{get_inflow}} </h3>
+										<tr><td><h3>Expenses:</h3></td>
+												<td><h3>-${{get_expenses}}</h3></td>
+										<tr><td><h3>Net: </h3></td>
+												<td><h3>${{get_net}}</h3>
+									</table>
 								</section>
 
 							</div>
