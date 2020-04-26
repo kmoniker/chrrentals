@@ -124,7 +124,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
@@ -136,4 +135,4 @@ STATICFILES_DIRS = [
     os.path.join('chrrentals/finances', 'static'),
 ]
 
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
