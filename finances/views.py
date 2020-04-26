@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views import generic
 from django.db.models import Sum
+from django.http import JsonResponse
 import calendar
 import csv
 from decimal import Decimal
@@ -13,6 +14,30 @@ from datetime import datetime, timedelta
 from .models import *
 from .forms import *
 # Create your views here.
+def get_data(request):
+    properties = Asset.objects.filter(property=True)
+    labels = []
+    values = []
+    for p in properties:
+        labels.append(p.name)
+        values.append(p.get_value())
+
+    data = {
+        'labels':labels,
+        'values':values,
+    }
+    return JsonResponse(data)
+
+def chart_test(request):
+    return render(
+        request,
+        'chart.html',
+        context = {
+            'labels':['lab1','lab2'],
+            'values':[1,2]
+
+        }
+    )
 
 def index(request):
 

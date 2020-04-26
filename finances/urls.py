@@ -71,3 +71,10 @@ urlpatterns += [
     path('assets/valueupdate/', views.AssetValueCreate.as_view(), name='asset-value-update'),
     path('assets/update/<int:pk>', views.AssetUpdate.as_view(), name='update-asset'),
 ]
+
+#api urlpatterns
+urlpatterns += [
+    path('api', views.get_data, name='api-data'),
+    path('api/charts', views.chart_test, name='chart_test'),
+
+]
