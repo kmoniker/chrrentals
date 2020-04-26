@@ -8,7 +8,65 @@
                 <div class="col-4 col-12-medium">
 
                     <section>
-                      chart here
+                      <!--Chartjs canvas !-->
+                      <canvas id="Property Pie Chart" width="400" height="400"></canvas>
+                      <!--Chartjs scripts !-->
+                      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+                      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+                      <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js'></script>
+                      <script>
+                      $(document).ready(function(){
+                        var endpoint = '/finances/api'
+                        var defaultData = []
+                        var labels = [];
+                        $.ajax({
+                            method: "GET",
+                            url: endpoint,
+                            success: function(data){
+                                console.log(data)
+                                console.log(data.values[1]*10)
+                                var ctx = document.getElementById("Property Pie Chart");
+                                var myChart = new Chart(ctx, {
+                                type: 'pie',
+                                data: {
+                                    labels: data.labels,
+                                    datasets: [{
+                                        data: data.values,
+                                        backgroundColor:[
+                                                          'rgba(23,55,83,1)',
+                                                          'rgba(0,79,255,1)',
+                                                          'rgba(49,175,212,1)',
+                                                          'rgba(40,146,215,1)',
+                                                          'rgba(27,67,83,1)',
+
+                                                          ]
+                                    }]
+                                },
+                                options: {
+                                    title:{
+                                      display: true,
+                                      text: 'Property Values',
+                                      fontSize: 24,
+                                    },
+                                    legend: {
+                                        labels: {
+                                            // This more specific font property overrides the global property
+                                            fontColor: 'black',
+                                            fontSize: 16,
+                                        }
+                                    }
+                                },
+                            });
+                            },
+                            error: function(error_data){
+                                console.log("error")
+                                console.log(error_data)
+                            }
+                        })
+                      })
+                      </script>
+                      <!-- end chart scripts !-->
+
                     </section>
 
                 </div>
