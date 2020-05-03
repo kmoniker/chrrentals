@@ -68,7 +68,17 @@
 
 							</div>
 							<div class="col-3 col-12-medium">
-
+								<section>
+									<h2>Net all time</h2>
+									<table>
+										<tr><td><h3>Income: </h3></td>
+												<td><h3>{{inflow_sum}} </h3>
+										<tr><td><h3>Expenses:</h3></td>
+												<td><h3>-{{outflow_sum}}</h3></td>
+										<tr><td><h3>Net: </h3></td>
+												<td><h3>{{net}}</h3>
+									</table>
+								</section>
 								<section>
 									<ul class="small-image-list">
 										<li><a class="button" href="{% url 'create-asset' %}">New Asset</a></li>

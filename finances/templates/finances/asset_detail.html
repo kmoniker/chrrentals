@@ -6,12 +6,6 @@
 					<div class="container">
 						<div class="row main-row">
 							<div class="col-3 col-12-medium">
-								<section>
-									<ul class="small-image-list">
-										<li><a class="button" href="{% url 'create-asset' %}">New Asset</a></li>
-										<li><a class="button" href="{% url 'asset-value-update' %}">Update Asset Value</a></li>
-									</ul>
-								</section>
 
 								<section>
 									<h2>Assets</h2>
@@ -85,7 +79,13 @@
 												<td><h3>${{get_net}}</h3>
 									</table>
 								</section>
-
+								<section>
+									<ul class="small-image-list">
+										<li><a class="button" href="{% url 'create-asset' %}">New Asset</a></li>
+										<li><a class="button" href="{% url 'asset-value-update' %}">Update Asset Value</a></li>
+									</ul>
+								</section>
+								
 							</div>
 						</div>
 					</div>

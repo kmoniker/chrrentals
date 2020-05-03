@@ -594,6 +594,18 @@ def assetoverview(request):
                 "name":"Asset Overview",
     }
 
+    inflows = Transaction.objects.filter(out_flow=False)
+    inflow_sum = 0
+    for i in inflows:
+        inflow_sum += i.amount
+
+    outflows = Transaction.objects.filter(out_flow=True)
+    outflow_sum = 0
+    for i in outflows:
+        outflow_sum += i.amount
+
+    net = inflow_sum-outflow_sum
+
     return render(
         request,
         'finances/asset_overview.html',
@@ -603,6 +615,10 @@ def assetoverview(request):
                     "property_set":property_set,
                     "non_property_set":non_property_set,
                     "get_value":get_value,
+                    "inflow_sum":"${:,.2f}".format(inflow_sum),
+                    "outflow_sum":"${:,.2f}".format(outflow_sum),
+                    "net":"${:,.2f}".format(net),
+
                   }
     )
 
