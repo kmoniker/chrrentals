@@ -40,12 +40,36 @@ class LeaseAdmin(admin.ModelAdmin):
     ordering=('-lease_start',)
     inlines = [TenantInline,]
 
+def make_assign_to_property_action(asset):
+    def assign_to_property(modeladmin, request, queryset):
+        for transaction in queryset:
+            transaction.assign_property(asset)
+            #message_user.info(request, "Transaction {0} assigned to {1}".format(transaction.id,asset.name))
+            transaction.save()
+            
+    assign_to_property.short_description = "Assign to {0}".format(asset.name)
+    assign_to_property.__name__ = 'assign_to_user_{0}'.format(asset.id)
+
+    return assign_to_property
+
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('date', 'bank_posted_date', 'pretty_amount','person', 'notes')
+    list_display = ('date', 'bank_posted_date', 'pretty_amount','person', 'property', 'notes')
     list_filter = ('date', 'bank_posted_date', 'person', 'tenant', 'investor', 'property')
     fields = (('date','bank_posted_date'),('amount', 'out_flow'), ('person','investor', 'tenant','property'), 'notes',)
     ordering= ('-date',)
+
+    def get_actions(self, request):
+        actions = super(TransactionAdmin, self).get_actions(request)
+        assets = Asset.objects.filter(property=True).order_by('name')
+        for asset in assets:
+            action = make_assign_to_property_action(asset)
+            actions[action.__name__] = (action,
+                                        action.__name__,
+                                        action.short_description)
+
+        return actions
+
 
 @admin.register(Tenant)
 class TenantAdmin(admin.ModelAdmin):

@@ -17,6 +17,9 @@ class Transaction(models.Model):
     tenant = models.ForeignKey('Tenant', on_delete=models.SET_NULL, null=True, blank=True)
     property = models.ForeignKey('Asset', on_delete=models.SET_NULL, null=True, blank=True)
 
+    def assign_property(self, p):
+        self.property=p
+
     def pretty_amount(self):
         if self.out_flow == False:
             return "$%s" % self.amount
